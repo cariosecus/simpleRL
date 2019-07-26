@@ -1,5 +1,4 @@
 import tcod as libtcod
-import tcod.event
 
 class InputHandler(libtcod.event.EventDispatch):
 

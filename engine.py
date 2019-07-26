@@ -28,8 +28,6 @@ def main():
     game_map = GameMap(MAP_WIDTH,MAP_HEIGHT)
     game_map.make_map()
     libtcod.sys_set_fps(LIMIT_FPS)
-    key = libtcod.Key()
-    mouse = libtcod.Mouse()
     in_handle = InputHandler()
 #main game loop
     while True:
@@ -41,7 +39,7 @@ def main():
             in_handle.dispatch(event)
         action = in_handle.get_action()
         move = action.get('move')
-        exit = action.get('exit')
+        doexit = action.get('exit')
         fullscreen = action.get('fullscreen')
 
         if move:
@@ -49,7 +47,7 @@ def main():
             if not game_map.is_blocked(player.x + dx, player.y + dy):
                 player.move(dx, dy)
 
-        if exit:
+        if doexit:
             return True
 
         if fullscreen:
