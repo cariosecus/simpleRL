@@ -8,6 +8,7 @@ from fov_functions import initialize_fov, recompute_fov
 from game_states import GameStates
 from components.fighter import Fighter
 from death_functions import kill_npc, kill_player
+from game_messages import MessageLog
 
 # global vars
 SCREEN_WIDTH = 80
@@ -31,7 +32,9 @@ ROOM_MIN_SIZE = 6
 BAR_WIDTH = 20
 PANEL_HEIGHT = 7
 PANEL_Y = SCREEN_HEIGHT-PANEL_HEIGHT
-
+MESSAGE_X = BAR_WIDTH + 2
+MESSAGE_WIDTH = SCREEN_WIDTH-BAR_WIDTH-2
+MESSAGE_HEIGHT = PANEL_HEIGHT-1
 colors = {
     'dark_wall': libtcod.Color(0, 0, 100),
     'dark_ground': libtcod.Color(50, 50, 150),
@@ -46,6 +49,7 @@ def main():
     entities = [player]
     libtcod.console_set_custom_font('images/arial12x12.png', libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD)
     libtcod.console_init_root(SCREEN_WIDTH, SCREEN_HEIGHT, 'simpleRL', False, libtcod.RENDERER_SDL2,'F',True)
+    libtcod.sys_set_fps(LIMIT_FPS)
 
     con = libtcod.console.Console(SCREEN_WIDTH, SCREEN_HEIGHT)
     panel = libtcod.console.Console(SCREEN_WIDTH, PANEL_HEIGHT)
@@ -54,7 +58,8 @@ def main():
     game_map.make_map(MAX_ROOMS, ROOM_MIN_SIZE, ROOM_MAX_SIZE, MAP_WIDTH, MAP_HEIGHT, player, entities, MAX_MONSTERS_PER_ROOM)
     fov_recompute = True
     fov_map = initialize_fov(game_map)
-    libtcod.sys_set_fps(LIMIT_FPS)
+    message_log = MessageLog(MESSAGE_X, MESSAGE_WIDTH, MESSAGE_HEIGHT)
+    mouse = libtcod.Mouse()
     in_handle = InputHandler()
     game_state = GameStates.PLAYERS_TURN
 
@@ -62,7 +67,7 @@ def main():
     while True:
         if fov_recompute:
             recompute_fov(fov_map, player.x, player.y, FOV_RADIUS, FOV_LIGHT_WALLS, FOV_ALGORITHM)
-        render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, SCREEN_WIDTH, SCREEN_HEIGHT, BAR_WIDTH, PANEL_HEIGHT, PANEL_Y, colors)
+        render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, message_log, SCREEN_WIDTH, SCREEN_HEIGHT, BAR_WIDTH, PANEL_HEIGHT, PANEL_Y, mouse, colors)
         fov_recompute = False
         libtcod.console_flush()
         clear_all(con, entities)
@@ -100,7 +105,7 @@ def main():
                         dead_entity = enemy_turn_result.get('dead')
 
                         if message:
-                            print(message)
+                            message_log.add_message(message)
 
                         if dead_entity:
                             if dead_entity == player:
@@ -108,7 +113,7 @@ def main():
                             else:
                                 message = kill_npc(dead_entity)
 
-                            print(message)
+                            message_log.add_message(message)
 
                             if game_state == GameStates.PLAYER_DEAD:
                                 break
