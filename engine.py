@@ -62,6 +62,7 @@ def main():
     mouse = libtcod.Mouse()
     in_handle = InputHandler()
     game_state = GameStates.PLAYERS_TURN
+    libtcod.sys_check_for_event(libtcod.EVENT_MOUSE, None,mouse)
 
     #main game loop
     while True:
@@ -95,6 +96,26 @@ def main():
 
                     fov_recompute = True
             game_state = GameStates.ENEMY_TURN
+        if doexit:
+            return True
+
+        if fullscreen:
+            libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
+        for player_turn_result in player_turn_results:
+            message = player_turn_result.get('message')
+            dead_entity = player_turn_result.get('dead')
+
+            if message:
+                message_log.add_message(message)
+
+            if dead_entity:
+                if dead_entity == player:
+                    message, game_state = kill_player(dead_entity)
+                else:
+                    message = kill_npc(dead_entity)
+
+                message_log.add_message(message)
+
         if game_state == GameStates.ENEMY_TURN:
             for entity in entities:
                 if entity.ai:
@@ -123,25 +144,6 @@ def main():
 
             else:
                 game_state = GameStates.PLAYERS_TURN
-        if doexit:
-            return True
-
-        if fullscreen:
-            libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
-        for player_turn_result in player_turn_results:
-            message = player_turn_result.get('message')
-            dead_entity = player_turn_result.get('dead')
-
-            if message:
-                print(message)
-
-            if dead_entity:
-                if dead_entity == player:
-                    message, game_state = kill_player(dead_entity)
-                else:
-                    message = kill_npc(dead_entity)
-
-                print(message)
 
 if __name__ == '__main__':
     main()
