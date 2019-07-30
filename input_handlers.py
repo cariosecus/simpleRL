@@ -34,6 +34,9 @@ class InputHandler(libtcod.event.EventDispatch):
             self._actionq.append({"move": (-1, 1)})
         elif event.sym == libtcod.event.K_c:
             self._actionq.append({"move": (1, 1)})
+            # pick up
+        elif event.sym == libtcod.event.K_f:
+            self._actionq.append({"pickup": True})
         # fullscreen
         if (event.sym == libtcod.event.K_RETURN
                 and event.mod & libtcod.event.KMOD_LALT):
