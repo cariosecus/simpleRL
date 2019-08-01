@@ -1,5 +1,5 @@
-import math
 import tcod as libtcod
+import math
 from render_functions import RenderOrder
 
 class Entity:
