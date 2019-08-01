@@ -76,11 +76,11 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
             inventory_title = 'Press the key next to an item to use it, or Esc to cancel.\n'
         else:
             inventory_title = 'Press the key next to an item to drop it, or Esc to cancel.\n'
+        inventory_menu(con, inventory_title, player.inventory, 50, screen_width, screen_height)
 
-        inventory_menu(con, inventory_title, player.inventory, 50, screen_width, screen_height)def clear_all(con, entities):
+def clear_all(con, entities):
     for entity in entities:
         clear_entity(con, entity)
-
 
 def draw_entity(con, entity, fov_map):
     if libtcod.map_is_in_fov(fov_map, entity.x, entity.y):
