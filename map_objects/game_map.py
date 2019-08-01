@@ -1,13 +1,13 @@
 import tcod as libtcod
 from random import randint
-from entity import Entity
+from entities.entity import Entity
 from map_objects.tile import Tile
 from map_objects.rectangle import Rect
 from components.ai import BasicEnemy
 from components.fighter import Fighter
 from render_functions import RenderOrder
 from components.item import Item
-from components.inventory import Inventory
+
 class GameMap:
     def __init__(self, width, height):
         self.width = width
@@ -115,8 +115,8 @@ class GameMap:
             y = randint(room.y1 + 1, room.y2 - 1)
 
             if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-                item = Entity(x, y, '!', libtcod.violet, 'Healing Potion', render_order=RenderOrder.ITEM,
-                              item=item_component)
+                item_component = Item()
+                item = Entity(x, y, '!', libtcod.violet, 'Healing Potion', render_order=RenderOrder.ITEM,item=item_component)
 
                 entities.append(item)
     def is_blocked(self, x, y):

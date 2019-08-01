@@ -1,4 +1,5 @@
 import tcod as libtcod
+import tcod.event
 
 class InputHandler(libtcod.event.EventDispatch):
 
@@ -35,8 +36,11 @@ class InputHandler(libtcod.event.EventDispatch):
         elif event.sym == libtcod.event.K_c:
             self._actionq.append({"move": (1, 1)})
             # pick up
-        elif event.sym == libtcod.event.K_f:
+        elif event.sym == libtcod.event.K_g:
             self._actionq.append({"pickup": True})
+            # inventory
+        elif event.sym == libtcod.event.K_i:
+            self._actionq.append({"show_inventory": True})
         # fullscreen
         if (event.sym == libtcod.event.K_RETURN
                 and event.mod & libtcod.event.KMOD_LALT):

@@ -1,7 +1,7 @@
 import tcod as libtcod
 import tcod.event
 from input_handlers import InputHandler
-from entity import *
+from entities.entity import *
 from render_functions import clear_all, render_all, RenderOrder
 from map_objects.game_map import GameMap
 from fov_functions import initialize_fov, recompute_fov
@@ -66,13 +66,14 @@ def main():
     mouse = libtcod.Mouse()
     in_handle = InputHandler()
     game_state = GameStates.PLAYERS_TURN
+    previous_game_state = game_state
     libtcod.sys_check_for_event(libtcod.EVENT_MOUSE, None,mouse)
 
     #main game loop
     while True:
         if fov_recompute:
             recompute_fov(fov_map, player.x, player.y, FOV_RADIUS, FOV_LIGHT_WALLS, FOV_ALGORITHM)
-        render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, message_log, SCREEN_WIDTH, SCREEN_HEIGHT, BAR_WIDTH, PANEL_HEIGHT, PANEL_Y, mouse, colors)
+        render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, message_log, SCREEN_WIDTH, SCREEN_HEIGHT, BAR_WIDTH, PANEL_HEIGHT, PANEL_Y, mouse, colors, game_state)
         fov_recompute = False
         libtcod.console_flush()
         clear_all(con, entities)
@@ -84,6 +85,7 @@ def main():
         doexit = action.get('exit')
         pickup = action.get('pickup')
         fullscreen = action.get('fullscreen')
+        show_inventory = action.get('show_inventory')
         player_turn_results = []
 
         if move and game_state == GameStates.PLAYERS_TURN:
@@ -111,8 +113,15 @@ def main():
             else:
                 message_log.add_message(Message('There is nothing here to pick up.', libtcod.yellow))
 
+        if show_inventory:
+            previous_game_state = game_state
+            game_state = GameStates.SHOW_INVENTORY
+
         if doexit:
-            return True
+            if game_state == GameStates.SHOW_INVENTORY:
+                game_state = previous_game_state
+            else:
+                return True
 
         if fullscreen:
             libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
