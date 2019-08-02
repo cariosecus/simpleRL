@@ -1,5 +1,5 @@
 import os
-import shelve2
+import shelve
 
 def save_game(player, entities, game_map, message_log, game_state):
     with shelve.open('savegame.dat', 'n') as data_file:
