@@ -57,7 +57,13 @@ class InputHandler(libtcod.event.EventDispatch):
                 self._actionq.append({"show_inventory": True})
             elif event.sym == libtcod.event.K_u:
                 self._actionq.append({"drop_inventory": True})
-
+            elif event.sym == libtcod.event.K_t:
+                self._actionq.append({"show_character_screen": True})
+                # use
+            elif event.sym in (libtcod.event.K_ENTER,event.K_f):
+                self._actionq.append({"take_stairs": True})
+            elif event.sym in (libtcod.event.K_ENTER,event.K_x):
+                self._actionq.append({"wait": True})
         elif self.state == GameStates.PLAYER_DEAD:
             if event.sym == libtcod.event.K_i:
                 self._actionq.append({"show_inventory": True})
@@ -66,6 +72,15 @@ class InputHandler(libtcod.event.EventDispatch):
             inv_index = event.sym - ord("a")
             if 0 <= inv_index < 26:
                 self._actionq.append({"inventory_index": inv_index})
+
+        elif self.state == GameStates.LEVEL_UP:
+            if event.sym == libtcod.event.K_a:
+                self._actionq.append({'level_up': 'hp'})
+            elif event.sym == libtcod.event.K_b:
+                self._actionq.append({'level_up': 'str'})
+            elif event.sym == libtcod.event.K_c:
+                self._actionq.append({'level_up': 'def'})
+            return {}
 
         elif self.state == GameStates.MAIN_MENU:
             if event.sym == libtcod.event.K_a:

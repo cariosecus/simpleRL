@@ -7,4 +7,6 @@ class GameStates(Enum):
     SHOW_INVENTORY = 4
     DROP_INVENTORY = 5
     TARGETING = 6
-    MAIN_MENU = 7
+    LEVEL_UP = 7
+    CHARACTER_SCREEN = 8
+    MAIN_MENU = 9

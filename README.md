@@ -7,7 +7,8 @@
 
  A simple Roguelike engine, using Python and the tcod modules. Based on the revised Roguelike tutorial: [Roguelike Tutorials](http://www.rogueliketutorials.com/)
 
-Uses:
+Modules used:
 Python 3.7.4 ([download](https://www.python.org/downloads/))
 tcod 11.1.1 ([download](https://pypi.org/project/tcod/))
 shelve2 1.0 ([download](https://pypi.org/project/shelve2/))
+pyYAML 5.1.2 ([download](https://pypi.org/project/PyYAML/))
