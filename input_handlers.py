@@ -14,6 +14,14 @@ class InputHandler(libtcod.event.EventDispatch):
         self._actionq.append({"exit": True})
 
     def ev_keydown(self, event):
+        # fullscreen
+        if (event.sym == libtcod.event.K_RETURN
+                and event.mod & libtcod.event.KMOD_LALT):
+            self._actionq.append({"fullscreen": True})
+
+        # exit the game
+        if event.sym == libtcod.event.K_ESCAPE:
+            self._actionq.append({"exit": True})
 
         if self.state == GameStates.PLAYERS_TURN:
             # movement keys
@@ -50,49 +58,36 @@ class InputHandler(libtcod.event.EventDispatch):
             elif event.sym == libtcod.event.K_u:
                 self._actionq.append({"drop_inventory": True})
 
-            # fullscreen
-            if (event.sym == libtcod.event.K_RETURN
-                    and event.mod & libtcod.event.KMOD_LALT):
-                self._actionq.append({"fullscreen": True})
-
-            # exit the game
-            if event.sym == libtcod.event.K_ESCAPE:
-                self._actionq.append({"exit": True})
-
         elif self.state == GameStates.PLAYER_DEAD:
             if event.sym == libtcod.event.K_i:
                 self._actionq.append({"show_inventory": True})
-            # fullscreen
-            if (event.sym == libtcod.event.K_RETURN
-                    and event.mod & libtcod.event.KMOD_LALT):
-                self._actionq.append({"fullscreen": True})
-            # exit the game
-            if event.sym == libtcod.event.K_ESCAPE:
-                self._actionq.append({"exit": True})
 
         elif self.state == GameStates.SHOW_INVENTORY:
             inv_index = event.sym - ord("a")
             if 0 <= inv_index < 26:
                 self._actionq.append({"inventory_index": inv_index})
-            # fullscreen
-            if (event.sym == libtcod.event.K_RETURN
-                    and event.mod & libtcod.event.KMOD_LALT):
-                self._actionq.append({"fullscreen": True})
-            # exit the game
-            if event.sym == libtcod.event.K_ESCAPE:
-                self._actionq.append({"exit": True})
+
         elif self.state == GameStates.DROP_INVENTORY:
             inv_index = event.sym - ord("a")
             if 0 <= inv_index < 26:
                 self._actionq.append({"inventory_index": inv_index})
-            # fullscreen
-            if (event.sym == libtcod.event.K_RETURN
-                    and event.mod & libtcod.event.KMOD_LALT):
-                self._actionq.append({"fullscreen": True})
-            # exit the game
-            if event.sym == libtcod.event.K_ESCAPE:
-                self._actionq.append({"exit": True})
 
+        elif self.state == GameStates.TARGETING:
+            inv_index = event.sym - ord("a")
+            if 0 <= inv_index < 26:
+                self._actionq.append({"inventory_index": inv_index})
+
+    def ev_mousemotion(self, event):
+        x, y = event.tile
+        self._actionq.append({"mousemotion": (x, y)})
+
+    def ev_mousebuttondown(self, event):
+        if self.state == GameStates.TARGETING:
+            x, y = event.tile
+            if event.button == tcod.event.BUTTON_RIGHT:
+                self._actionq.append({"cancel_target": True})
+            elif event.button == tcod.event.BUTTON_LEFT:
+                self._actionq.append({"in_target": (x, y)})
     def get_action(self):
         if self._actionq:
             return self._actionq.pop(0)
@@ -101,3 +96,15 @@ class InputHandler(libtcod.event.EventDispatch):
 
     def clear_actionq(self):
         self._actionq.clear()
+
+    def handle_main_menu(key):
+        key_char = chr(key.c)
+
+        if event.sym == libtcod.event.K_a:
+            self._actionq.append({'new_game': True})
+        elif event.sym == libtcod.event.K_b:
+            self._actionq.append({'load_game': True})
+        elif event.sym == libtcod.event.K_c or event.sym == libtcod.event.K_ESCAPE:
+            self._actionq.append({"exit": True})
+
+        return {}
