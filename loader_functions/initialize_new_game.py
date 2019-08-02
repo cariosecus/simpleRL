@@ -1,7 +1,7 @@
 import tcod as libtcod
+from entities.entity import Entity
 from components.fighter import Fighter
 from components.inventory import Inventory
-from entity import Entity
 from game_messages import MessageLog
 from game_states import GameStates
 from map_objects.game_map import GameMap
@@ -72,9 +72,9 @@ def get_game_variables(constants):
                     fighter=fighter_component, inventory=inventory_component)
     entities = [player]
 
-    game_map = GameMap(constants['SCREEN_WIDTH'], constants['SCREEN_HEIGHT'])
-    game_map.make_map(constants['MAX_ROOMS'], constants['ROOM_MIN_SIZE'], constants['ROOM_MAX_SIZE'], constants['SCREEN_WIDTH'], constants['SCREEN_HEIGHT'], player, entities, constants['MAX_MONSTERS_PER_ROOM'], constants['MAX_ITEMS_PER_ROOM'])
-    message_log = MessageLog(constants['MESSAGE_X'], constants['MESSAGE_WIDTH'], constants['MESSAGE_HEIGHT'])
+    game_map = GameMap(constants['screen_width'], constants['screen_height'])
+    game_map.make_map(constants['max_rooms'], constants['room_min_size'], constants['room_max_size'], constants['screen_width'], constants['screen_height'], player, entities, constants['max_monsters_per_room'], constants['max_items_per_room'])
+    message_log = MessageLog(constants['message_x'], constants['message_width'], constants['message_height'])
 
     game_state = GameStates.PLAYERS_TURN
 

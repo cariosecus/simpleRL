@@ -62,20 +62,18 @@ class InputHandler(libtcod.event.EventDispatch):
             if event.sym == libtcod.event.K_i:
                 self._actionq.append({"show_inventory": True})
 
-        elif self.state == GameStates.SHOW_INVENTORY:
+        elif self.state in (GameStates.SHOW_INVENTORY,GameStates.DROP_INVENTORY,GameStates.TARGETING):
             inv_index = event.sym - ord("a")
             if 0 <= inv_index < 26:
                 self._actionq.append({"inventory_index": inv_index})
 
-        elif self.state == GameStates.DROP_INVENTORY:
-            inv_index = event.sym - ord("a")
-            if 0 <= inv_index < 26:
-                self._actionq.append({"inventory_index": inv_index})
-
-        elif self.state == GameStates.TARGETING:
-            inv_index = event.sym - ord("a")
-            if 0 <= inv_index < 26:
-                self._actionq.append({"inventory_index": inv_index})
+        elif self.state == GameStates.MAIN_MENU:
+            if event.sym == libtcod.event.K_a:
+                self._actionq.append({'new_game': True})
+            elif event.sym == libtcod.event.K_b:
+                self._actionq.append({'load_game': True})
+            elif event.sym == libtcod.event.K_c:
+                self._actionq.append({"exit": True})
 
     def ev_mousemotion(self, event):
         x, y = event.tile
@@ -96,15 +94,3 @@ class InputHandler(libtcod.event.EventDispatch):
 
     def clear_actionq(self):
         self._actionq.clear()
-
-    def handle_main_menu(key):
-        key_char = chr(key.c)
-
-        if event.sym == libtcod.event.K_a:
-            self._actionq.append({'new_game': True})
-        elif event.sym == libtcod.event.K_b:
-            self._actionq.append({'load_game': True})
-        elif event.sym == libtcod.event.K_c or event.sym == libtcod.event.K_ESCAPE:
-            self._actionq.append({"exit": True})
-
-        return {}
