@@ -1,0 +1,4 @@
+simpleRL
+tcod==11.1.1
+shelve2==1.0
+pyYAML==5.1.2
