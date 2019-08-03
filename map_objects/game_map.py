@@ -5,7 +5,6 @@ from random_utils import from_dungeon_level, random_choice_from_dict
 from map_objects.tile import Tile
 from map_objects.rectangle import Rect
 from game_messages import Message
-from render_functions import RenderOrder
 from components.ai import BasicEnemy
 from components.equipment import EquipmentSlots
 from components.equippable import Equippable
@@ -13,6 +12,7 @@ from components.fighter import Fighter
 from components.item import Item
 from components.item_functions import cast_fireball, cast_lightning, cast_confuse, heal
 from components.stairs import Stairs
+from render_functions import RenderOrder
 
 class GameMap:
 	def __init__(self, width, height, dungeon_level=1):
@@ -33,7 +33,7 @@ class GameMap:
 		center_of_last_room_x = None
 		center_of_last_room_y = None
 
-		for _ in range(max_rooms):
+		for r in range(max_rooms):
 			# random width and height
 			w = randint(room_min_size, room_max_size)
 			h = randint(room_min_size, room_max_size)
@@ -85,8 +85,7 @@ class GameMap:
 				num_rooms += 1
 
 		stairs_component = Stairs(self.dungeon_level + 1)
-		down_stairs = Entity(center_of_last_room_x, center_of_last_room_y, '>', libtcod.white, 'Stairs',
-							 render_order=RenderOrder.STAIRS, stairs=stairs_component)
+		down_stairs = Entity(center_of_last_room_x, center_of_last_room_y, '>', libtcod.white, 'Stairs',render_order=RenderOrder.STAIRS, stairs=stairs_component)
 		entities.append(down_stairs)
 
 	def create_room(self, room):
@@ -120,13 +119,11 @@ class GameMap:
 
 		item_chances = {
 			'healing_potion': 35,
-			'sword': from_dungeon_level([[5, 4]], self.dungeon_level),
-			'shield': from_dungeon_level([[15, 8]], self.dungeon_level),
 			'lightning_scroll': from_dungeon_level([[25, 4]], self.dungeon_level),
 			'fireball_scroll': from_dungeon_level([[25, 6]], self.dungeon_level),
 			'confusion_scroll': from_dungeon_level([[10, 2]], self.dungeon_level)
 		}
-		for _ in range(number_of_monsters):
+		for i in range(number_of_monsters):
 			# Choose a random location in the room
 			x = randint(room.x1 + 1, room.x2 - 1)
 			y = randint(room.y1 + 1, room.y2 - 1)
@@ -144,7 +141,7 @@ class GameMap:
 
 				entities.append(monster)
 
-		for _ in range(number_of_items):
+		for i in range(number_of_items):
 			x = randint(room.x1 + 1, room.x2 - 1)
 			y = randint(room.y1 + 1, room.y2 - 1)
 
@@ -159,16 +156,8 @@ class GameMap:
 						'Left-click a target tile for the fireball, or right-click to cancel.', libtcod.light_cyan),damage=25, radius=3)
 					item = Entity(x, y, '#', libtcod.red, 'Fireball Scroll', render_order=RenderOrder.ITEM,item=item_component)
 				elif item_choice == 'confusion_scroll':
-					item_component = Item(use_function=cast_confuse, targeting=True, targeting_message=Message(
-						'Left-click an enemy to confuse it, or right-click to cancel.', libtcod.light_cyan))
+					item_component = Item(use_function=cast_confuse, targeting=True, targeting_message=Message('Left-click an enemy to confuse it, or right-click to cancel.', libtcod.light_cyan))
 					item = Entity(x, y, '#', libtcod.light_pink, 'Confusion Scroll', render_order=RenderOrder.ITEM,item=item_component)
-				elif item_choice == 'sword':
-					equippable_component = Equippable(EquipmentSlots.MAIN_HAND, power_bonus=3)
-					item = Entity(x, y, '/', libtcod.sky, 'Sword', equippable=equippable_component)
-				elif item_choice == 'shield':
-					equippable_component = Equippable(EquipmentSlots.OFF_HAND, defense_bonus=1)
-					item = Entity(x, y, '[', libtcod.darker_orange, 'Shield', equippable=equippable_component)
-
 				else:
 					item_component = Item(use_function=cast_lightning, damage=40, maximum_range=5)
 					item = Entity(x, y, '#', libtcod.yellow, 'Lightning Scroll', render_order=RenderOrder.ITEM,item=item_component)

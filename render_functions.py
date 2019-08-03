@@ -9,14 +9,22 @@ class RenderOrder(Enum):
 	ITEM = 3
 	ACTOR = 4
 
-def get_names_under_mouse(mouse, entities, fov_map):
-	(x, y) = (mouse.cx, mouse.cy)
-
-	names = [entity.name for entity in entities
-			 if entity.x == x and entity.y == y and libtcod.map_is_in_fov(fov_map, entity.x, entity.y)]
-	names = ', '.join(names)
-
-	return names.capitalize()
+def mouseover_names(console, game_map, mouse, entities, curr_entity):
+	(mouse_x, mouse_y) = (mouse.cx, mouse.cy)
+	map_x, map_y = get_map_offset(console, game_map, curr_entity)
+	con_x, con_y = get_console_offset(console, game_map)
+	x_off = map_x - con_x
+	y_off = map_y - con_y
+	mouse_x += x_off
+	mouse_y += y_off
+	if ((mouse_x < game_map.width and mouse_y < game_map.height)
+			and (curr_entity.fov_map.fov[mouse_y][mouse_x])):
+		names = []
+		for entity in entities:
+			if (entity.x == mouse_x and entity.y == mouse_y and entity is not entities[0] and curr_entity is not entities[0]):
+				names.append(entity.name)
+		namelist = ", ".join(names)
+		return namelist
 
 def render_bar(panel, x, y, total_width, name, value, maximum, bar_color, back_color):
 	bar_width = int(float(value) / maximum * total_width)
@@ -31,27 +39,26 @@ def render_bar(panel, x, y, total_width, name, value, maximum, bar_color, back_c
 	libtcod.console_set_default_foreground(panel, libtcod.white)
 	libtcod.console_print_ex(panel, int(x + total_width / 2), y, libtcod.BKGND_NONE, libtcod.CENTER,'{0}: {1}/{2}'.format(name, value, maximum))
 
-def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, message_log, screen_width, screen_height,
-			bar_width, panel_height, panel_y, colors, game_state):
+def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, message_log, screen_width, screen_height,bar_width, panel_height, panel_y, colors, game_state):
 	# Draw all the tiles in the game map
 	if fov_recompute:
 		for y in range(game_map.height):
 			for x in range(game_map.width):
+
 				visible = libtcod.map_is_in_fov(fov_map, x, y)
 				wall = game_map.tiles[x][y].block_sight
 
-			if visible:
-				if wall:
-					libtcod.console_set_char_background(con, x, y, colors.get('light_wall'), libtcod.BKGND_SET)
-				else:
-					libtcod.console_set_char_background(con, x, y, colors.get('light_ground'), libtcod.BKGND_SET)
-				game_map.tiles[x][y].explored = True
-			elif game_map.tiles[x][y].explored:
-				if wall:
-					libtcod.console_set_char_background(con, x, y, colors.get('dark_wall'), libtcod.BKGND_SET)
-				else:
-					libtcod.console_set_char_background(con, x, y, colors.get('dark_ground'), libtcod.BKGND_SET)
-
+				if visible:
+					if wall:
+						libtcod.console_set_char_background(con, x, y, colors.get('light_wall'), libtcod.BKGND_SET)
+					else:
+						libtcod.console_set_char_background(con, x, y, colors.get('light_ground'), libtcod.BKGND_SET)
+					game_map.tiles[x][y].explored = True
+				elif game_map.tiles[x][y].explored:
+					if wall:
+						libtcod.console_set_char_background(con, x, y, colors.get('dark_wall'), libtcod.BKGND_SET)
+					else:
+						libtcod.console_set_char_background(con, x, y, colors.get('dark_ground'), libtcod.BKGND_SET)
 	entities_in_render_order = sorted(entities, key=lambda x: x.render_order.value)
 
 	# Draw all entities in the list
@@ -67,11 +74,10 @@ def render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, m
 		libtcod.console_print_ex(panel, message_log.x, y, libtcod.BKGND_NONE, libtcod.LEFT, message.text)
 		y += 1
 	render_bar(panel, 1, 1, bar_width, 'HP', player.fighter.hp, player.fighter.max_hp, libtcod.light_red, libtcod.darker_red)
-	libtcod.console_print_ex(panel, 1, 3, libtcod.BKGND_NONE, libtcod.LEFT,
-							 'Dungeon level: {0}'.format(game_map.dungeon_level))
+	libtcod.console_print_ex(panel, 1, 3, libtcod.BKGND_NONE, libtcod.LEFT,'Dungeon level: {0}'.format(game_map.dungeon_level))
 	# anything we're mousing over
 	libtcod.console_set_default_foreground(panel, libtcod.light_gray)
-#	libtcod.console_print_ex(panel, 1, 0, libtcod.BKGND_NONE, libtcod.LEFT,get_names_under_mouse(mouse, entities, fov_map))
+#	libtcod.console_print_ex(panel, 1, 0, libtcod.BKGND_NONE, libtcod.LEFT,mouseover_names(console, game_map, mouse, entities, curr_entity))
 	libtcod.console_blit(panel, 0, 0, screen_width, panel_height, 0, 0, panel_y)
 	if game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY):
 		if game_state == GameStates.SHOW_INVENTORY:
