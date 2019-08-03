@@ -156,7 +156,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 				game_state = GameStates.TARGETING
 				targeting_item = targeting
 				message_log.add_message(targeting_item.item.targeting_message)
-				
+
 			if targeting_cancelled:
 				game_state = previous_game_state
 

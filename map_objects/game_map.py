@@ -33,7 +33,7 @@ class GameMap:
 		center_of_last_room_x = None
 		center_of_last_room_y = None
 
-		for r in range(max_rooms):
+		for _ in range(max_rooms):
 			# random width and height
 			w = randint(room_min_size, room_max_size)
 			h = randint(room_min_size, room_max_size)
@@ -126,7 +126,7 @@ class GameMap:
 			'fireball_scroll': from_dungeon_level([[25, 6]], self.dungeon_level),
 			'confusion_scroll': from_dungeon_level([[10, 2]], self.dungeon_level)
 		}
-		for i in range(number_of_monsters):
+		for _ in range(number_of_monsters):
 			# Choose a random location in the room
 			x = randint(room.x1 + 1, room.x2 - 1)
 			y = randint(room.y1 + 1, room.y2 - 1)
@@ -144,7 +144,7 @@ class GameMap:
 
 				entities.append(monster)
 
-		for i in range(number_of_items):
+		for _ in range(number_of_items):
 			x = randint(room.x1 + 1, room.x2 - 1)
 			y = randint(room.y1 + 1, room.y2 - 1)
 
