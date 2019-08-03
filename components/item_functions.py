@@ -81,7 +81,7 @@ def cast_confuse(*args, **kwargs):
 
 	for entity in entities:
 		if entity.x == target_x and entity.y == target_y and entity.ai:
-			confused_ai = ConfusedMonster(entity.ai, 10)
+			confused_ai = ConfusedEnemy(entity.ai, 10)
 
 			confused_ai.owner = entity
 			entity.ai = confused_ai

@@ -151,6 +151,12 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 			if message:
 				message_log.add_message(message)
 
+			if targeting:
+				previous_game_state = GameStates.PLAYERS_TURN
+				game_state = GameStates.TARGETING
+				targeting_item = targeting
+				message_log.add_message(targeting_item.item.targeting_message)
+				
 			if targeting_cancelled:
 				game_state = previous_game_state
 
