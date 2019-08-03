@@ -121,3 +121,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+savegame.dat.bak
+savegame.dat.dat
+savegame.dat.dir
