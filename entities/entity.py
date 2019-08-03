@@ -112,6 +112,3 @@ def get_blocking_entities_at_location(entities, destination_x, destination_y):
 			return entity
 
 	return None
-
-	def distance(self, x, y):
-		return math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)

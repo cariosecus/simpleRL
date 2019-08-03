@@ -16,7 +16,6 @@ def get_constants():
 	WINDOW_TITLE = "SimpleRL"
 	SCREEN_WIDTH = 80
 	SCREEN_HEIGHT = 50
-	LIMIT_FPS = 20
 	MAP_WIDTH = 80
 	MAP_HEIGHT = 43
 

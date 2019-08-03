@@ -37,7 +37,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 		doexit = action.get('exit')
 		pickup = action.get('pickup')
 		fullscreen = action.get('fullscreen')
-		mousemotion = action.get("mousemotion")
 		show_inventory = action.get('show_inventory')
 		drop_inventory = action.get('drop_inventory')
 		inventory_index = action.get('inventory_index')
