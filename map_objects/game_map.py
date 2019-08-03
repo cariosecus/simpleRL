@@ -153,19 +153,15 @@ class GameMap:
 
 				if item_choice == 'healing_potion':
 					item_component = Item(use_function=heal, amount=40)
-					item = Entity(x, y, '!', libtcod.violet, 'Healing Potion', render_order=RenderOrder.ITEM,
-								  item=item_component)
+					item = Entity(x, y, '!', libtcod.violet, 'Healing Potion', render_order=RenderOrder.ITEM,item=item_component)
 				elif item_choice == 'fireball_scroll':
 					item_component = Item(use_function=cast_fireball, targeting=True, targeting_message=Message(
-						'Left-click a target tile for the fireball, or right-click to cancel.', libtcod.light_cyan),
-										  damage=25, radius=3)
-					item = Entity(x, y, '#', libtcod.red, 'Fireball Scroll', render_order=RenderOrder.ITEM,
-								  item=item_component)
+						'Left-click a target tile for the fireball, or right-click to cancel.', libtcod.light_cyan),damage=25, radius=3)
+					item = Entity(x, y, '#', libtcod.red, 'Fireball Scroll', render_order=RenderOrder.ITEM,item=item_component)
 				elif item_choice == 'confusion_scroll':
 					item_component = Item(use_function=cast_confuse, targeting=True, targeting_message=Message(
 						'Left-click an enemy to confuse it, or right-click to cancel.', libtcod.light_cyan))
-					item = Entity(x, y, '#', libtcod.light_pink, 'Confusion Scroll', render_order=RenderOrder.ITEM,
-								  item=item_component)
+					item = Entity(x, y, '#', libtcod.light_pink, 'Confusion Scroll', render_order=RenderOrder.ITEM,item=item_component)
 				elif item_choice == 'sword':
 					equippable_component = Equippable(EquipmentSlots.MAIN_HAND, power_bonus=3)
 					item = Entity(x, y, '/', libtcod.sky, 'Sword', equippable=equippable_component)
@@ -175,8 +171,7 @@ class GameMap:
 
 				else:
 					item_component = Item(use_function=cast_lightning, damage=40, maximum_range=5)
-					item = Entity(x, y, '#', libtcod.yellow, 'Lightning Scroll', render_order=RenderOrder.ITEM,
-								  item=item_component)
+					item = Entity(x, y, '#', libtcod.yellow, 'Lightning Scroll', render_order=RenderOrder.ITEM,item=item_component)
 				entities.append(item)
 	def is_blocked(self, x, y):
 		if self.tiles[x][y].blocked:
@@ -189,8 +184,7 @@ class GameMap:
 		entities = [player]
 
 		self.tiles = self.initialize_tiles()
-		self.make_map(constants['max_rooms'], constants['room_min_size'], constants['room_max_size'],
-					  constants['map_width'], constants['map_height'], player, entities)
+		self.make_map(constants['max_rooms'], constants['room_min_size'], constants['room_max_size'],constants['map_width'], constants['map_height'], player, entities)
 
 		player.fighter.heal(player.fighter.max_hp // 2)
 
