@@ -2,10 +2,7 @@ import tcod as libtcod
 import tcod.event
 from play_game import play_game
 from input_handlers import InputHandler
-from render_functions import clear_all
-from fov_functions import initialize_fov
 from game_states import GameStates
-from death_functions import kill_npc
 from loader_functions.initialize_new_game import get_constants, get_game_variables
 from loader_functions.data_loaders import load_game
 from menus import main_menu, message_box
@@ -31,7 +28,6 @@ def main():
 	main_menu_background_image = libtcod.image_load('images/menu_background1.png')
 
 	in_handle = InputHandler()
-
 	#main game loop
 	while True:
 		if show_main_menu:
@@ -52,6 +48,7 @@ def main():
 
 			if show_load_error_message and (new_game or load_saved_game or exit_game):
 				show_load_error_message = False
+
 			elif new_game:
 				player, entities, game_map, message_log, game_state = get_game_variables(constants)
 				game_state = GameStates.PLAYERS_TURN
@@ -67,7 +64,7 @@ def main():
 				break
 
 		else:
-			con.clear()
+			con.clear(fg=[63,127,63])
 			play_game(player, entities, game_map, message_log, game_state, con, panel, constants)
 
 			show_main_menu = True

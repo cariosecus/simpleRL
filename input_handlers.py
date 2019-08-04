@@ -60,9 +60,9 @@ class InputHandler(libtcod.event.EventDispatch):
 			elif event.sym == libtcod.event.K_t:
 				self._actionq.append({"show_character_screen": True})
 				# use
-			elif event.sym in (libtcod.event.K_ENTER,event.K_f):
+			elif event.sym == libtcod.event.K_f:
 				self._actionq.append({"take_stairs": True})
-			elif event.sym in (libtcod.event.K_ENTER,event.K_x):
+			elif event.sym == libtcod.event.K_x:
 				self._actionq.append({"wait": True})
 		elif self.state == GameStates.PLAYER_DEAD:
 			if event.sym == libtcod.event.K_i:
@@ -97,10 +97,11 @@ class InputHandler(libtcod.event.EventDispatch):
 	def ev_mousebuttondown(self, event):
 		if self.state == GameStates.TARGETING:
 			x, y = event.tile
-			if event.button == tcod.event.BUTTON_RIGHT:
+			if event.button == libtcod.event.BUTTON_RIGHT:
 				self._actionq.append({"cancel_target": True})
-			elif event.button == tcod.event.BUTTON_LEFT:
+			elif event.button == libtcod.event.BUTTON_LEFT:
 				self._actionq.append({"in_target": (x, y)})
+
 	def get_action(self):
 		if self._actionq:
 			return self._actionq.pop(0)

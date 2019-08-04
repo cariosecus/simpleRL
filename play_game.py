@@ -16,12 +16,17 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 	game_state = GameStates.PLAYERS_TURN
 	previous_game_state = game_state
 	targeting_item = None
-
+	mouse = libtcod.Mouse()
+	key = libtcod.Key()
+	render_update = True
+	
 	#main game loop
 	while True:
+		libtcod.sys_check_for_event(libtcod.EVENT_MOUSE, key, mouse)
+
 		if fov_recompute:
 			recompute_fov(fov_map, player.x, player.y, constants['fov_radius'], constants['fov_light_walls'], constants['fov_algorithm'])
-		render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, message_log, constants['screen_width'], constants['screen_height'], constants['bar_width'], constants['panel_height'], constants['panel_y'], constants['colors'], game_state)
+		render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, message_log, constants['screen_width'], constants['screen_height'], constants['bar_width'], constants['panel_height'], constants['panel_y'], constants['colors'], game_state, mouse)
 		fov_recompute = False
 		libtcod.console_flush()
 		clear_all(con, entities)
@@ -42,8 +47,15 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 		level_up = action.get('level_up')
 		show_character_screen = action.get('show_character_screen')
 		in_target = action.get("in_target")
-		player_turn_results = []
+		mousemotion = action.get("mousemotion")
 
+		player_turn_results = []
+		if mousemotion:
+			render_update = True
+		if render_update:
+			render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, message_log, constants['screen_width'], constants['screen_height'], constants['bar_width'], constants['panel_height'], constants['panel_y'], constants['colors'], game_state, mouse)
+			tcod.console_flush()
+			render_update = False
 		if move and game_state == GameStates.PLAYERS_TURN:
 			dx, dy = move
 			destination_x = player.x + dx
