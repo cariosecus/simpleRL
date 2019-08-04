@@ -141,7 +141,7 @@ class GameMap:
 
 				entities.append(monster)
 
-		for i in range(number_of_items):
+		for _ in range(number_of_items):
 			x = randint(room.x1 + 1, room.x2 - 1)
 			y = randint(room.y1 + 1, room.y2 - 1)
 

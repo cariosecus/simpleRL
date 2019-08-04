@@ -7,7 +7,7 @@ from fov_functions import initialize_fov, recompute_fov
 from game_states import GameStates
 from death_functions import kill_npc, kill_player
 from game_messages import Message
-from loader_functions.data_loaders import load_game, save_game
+from loader_functions.data_loaders import save_game
 
 def play_game(player, entities, game_map, message_log, game_state, con, panel, constants):
 	fov_recompute = True
