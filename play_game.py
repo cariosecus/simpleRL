@@ -19,7 +19,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 	mouse = libtcod.Mouse()
 	key = libtcod.Key()
 	render_update = True
-	
+
 	#main game loop
 	while True:
 		libtcod.sys_check_for_event(libtcod.EVENT_MOUSE, key, mouse)

@@ -1,5 +1,6 @@
 import os
 import shelve
+import yaml
 
 def save_game(player, entities, game_map, message_log, game_state):
 	with shelve.open('savegame.dat', 'n') as data_file:
@@ -23,3 +24,13 @@ def load_game():
 	player = entities[player_index]
 
 	return player, entities, game_map, message_log, game_state
+
+def loadyaml(filepath):
+	with open(filepath, "r") as file_descriptor:
+		loaded = yaml.safe_load(file_descriptor)
+	return loaded
+
+def dumpyaml(file = None, data = None):
+	if data:
+		with open(file, "w") as file_descriptor:
+			yaml.dump(file, file_descriptor)
