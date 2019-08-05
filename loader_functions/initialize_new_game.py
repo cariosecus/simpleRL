@@ -10,7 +10,6 @@ from map_objects.game_map import GameMap
 from render_functions import RenderOrder
 from components.level import Level
 from equipment_slots import EquipmentSlots
-from loader_functions.data_loaders import loadyaml
 
 def get_constants():
 	# global vars
@@ -76,7 +75,6 @@ def get_game_variables(constants):
 	equipment_component = Equipment()
 	player = Entity(0, 0, '@', libtcod.white, 'Player', blocks=True, render_order=RenderOrder.ACTOR,fighter=fighter_component, inventory=inventory_component, level=level_component,equipment=equipment_component)
 	entities = [player]
-	loadednpcs = loadyaml('data/npcs.yaml')
 
 	equippable_component = Equippable(EquipmentSlots.MAIN_HAND, power_bonus=2)
 	dagger = Entity(0, 0, '-', libtcod.sky, 'Dagger', equippable=equippable_component)

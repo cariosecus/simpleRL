@@ -1,6 +1,11 @@
 import os
 import shelve
 import yaml
+from components.fighter import Fighter
+from components.ai import BasicEnemy
+from entities.entity import Entity
+from render_functions import RenderOrder
+import tcod as libtcod
 
 def save_game(player, entities, game_map, message_log, game_state):
 	with shelve.open('savegame.dat', 'n') as data_file:
@@ -34,3 +39,13 @@ def dumpyaml(file = None, data = None):
 	if data:
 		with open(file, "w") as file_descriptor:
 			yaml.dump(file, file_descriptor)
+
+def LoadEntity(var = None, type='npc',x=0, y=0):
+	if type == 'npc':
+		loadednpcs = loadyaml('data/npcs.yaml')
+		result = loadednpcs[var]
+		if result['fighter_component']:
+			fighter_component = Fighter(result['hp'], result['defense'], result['power'], result['xp'])
+		if result['ai_component']:
+			ai_component = BasicEnemy()
+		return Entity(x, y, result['char'], libtcod.Color(result['color_r'],result['color_g'],result['color_b']), result['name'], blocks=result['blocks'], render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)

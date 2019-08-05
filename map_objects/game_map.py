@@ -13,6 +13,7 @@ from components.item import Item
 from components.item_functions import cast_fireball, cast_lightning, cast_confuse, heal
 from components.stairs import Stairs
 from render_functions import RenderOrder
+from loader_functions.data_loaders import LoadEntity
 
 class GameMap:
 	def __init__(self, width, height, dungeon_level=1):
@@ -130,14 +131,7 @@ class GameMap:
 
 			if not any([entity for entity in entities if entity.x == x and entity.y == y]):
 				monster_choice = random_choice_from_dict(monster_chances)
-				if monster_choice == 'orc':
-					fighter_component = Fighter(hp=20, defense=0, power=4, xp=35)
-					ai_component = BasicEnemy()
-					monster = Entity(x, y, 'o', libtcod.desaturated_green, 'Orc', blocks=True, render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
-				else:
-					fighter_component = Fighter(hp=30, defense=2, power=8, xp=100)
-					ai_component = BasicEnemy()
-					monster = Entity(x, y, 'T', libtcod.darker_green, 'Troll', blocks=True, render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
+				monster = LoadEntity(monster_choice,'npc',x,y)
 
 				entities.append(monster)
 

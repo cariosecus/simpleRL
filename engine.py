@@ -57,7 +57,7 @@ def main():
 			elif load_saved_game:
 				try:
 					player, entities, game_map, message_log, game_state = load_game()
-					show_main_menu = False
+					show_main_menu = Falseaaa
 				except FileNotFoundError:
 					show_load_error_message = True
 			elif exit_game:

@@ -1,16 +1,28 @@
 'orc':
   'char': 'o'
-  'color': libtcod.desaturated_green
+  'color_r': 63
+  'color_g': 127
+  'color_b': 63
   'name': 'Orc'
   'blocks': True
-  'render_order': RenderOrder.ACTOR
-  'fighter_component': fighter_component
-  'ai_component': ai_component
+  'render_order': 'RenderOrder.ACTOR'
+  'fighter_component': 'fighter_component'
+  'ai_component': 'ai_component'
+  'hp': 20
+  'defense': 0
+  'power': 4
+  'xp': 35
 'troll':
   'char': 'T'
-  'color': libtcod.darker_green
+  'color_r': 95
+  'color_g': 95
+  'color_b': 95
   'name': 'Troll'
   'blocks': True
-  'render_order': RenderOrder.ACTOR
-  'fighter_component': fighter_component
-  'ai_component': ai_component
+  'render_order': 'RenderOrder.ACTOR'
+  'fighter_component': 'fighter_component'
+  'ai_component': 'ai_component'
+  'hp': 30
+  'defense': 2
+  'power': 8
+  'xp': 100
