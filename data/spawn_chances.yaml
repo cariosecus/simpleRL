@@ -7,5 +7,6 @@
 'objects':
   2: 'very rare'
   4: 'rare'
-  30: 'uncommon'
-  64: 'common'
+  12: 'very uncommon'
+  15: 'uncommon'
+  67: 'common'

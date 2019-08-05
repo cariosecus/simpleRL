@@ -7,7 +7,12 @@
   'color_b': 255
   'item': 'item_component'
   'item_use_function': 'heal'
+  'targeting': False
+  'targeting_message': None
   'item_amount': 40
+  'damage_radius': 0
+  'damage': 0
+  'maximum_range': 0
 
 'fireball_scroll':
   'char': '#'
@@ -22,12 +27,13 @@
   'targeting_message': 'Left-click a target tile for the fireball, or right-click to cancel.'
   'damage': 25
   'damage_radius': 3
-  'damage_radius': 0
+  'item_amount': 0
+  'maximum_range': 0
 
 'confusion_scroll':
   'char': '#'
   'name': 'Confusion Scroll'
-  'rarity': 'uncommon'
+  'rarity': 'very uncommon'
   'color_r': 255
   'color_g': 63
   'color_b': 159
@@ -35,8 +41,9 @@
   'item_use_function': 'cast_confuse'
   'targeting': True
   'targeting_message': 'Left-click an enemy to confuse it, or right-click to cancel.'
-  'damage': 0
+  'item_amount': 0
   'damage_radius': 0
+  'damage': 0
   'maximum_range': 0
 
 'lightning_scroll':
@@ -49,6 +56,8 @@
   'item': 'item_component'
   'item_use_function': 'cast_lightning'
   'targeting': False
+  'targeting_message': None
   'damage': 40
-  'damage_radius': 0
   'maximum_range': 5
+  'item_amount': 40
+  'damage_radius': 0
