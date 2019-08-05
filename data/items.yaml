@@ -1,0 +1,50 @@
+'healing_potion':
+  'char': '!'
+  'name': 'Healing Potion'
+  'color_r': 191
+  'color_g': 127
+  'color_b': 255
+  'item': 'item_component'
+  'item_use_function': 'heal'
+  'item_amount': 40
+
+'fireball_scroll':
+  'char': '#'
+  'name': 'Fireball Scroll'
+  'color_r': 255
+  'color_g': 0
+  'color_b': 0
+  'item': 'item_component'
+  'item_use_function': 'cast_fireball'
+  'targeting': True
+  'targeting_message': 'Left-click a target tile for the fireball, or right-click to cancel.'
+  'damage': 25
+  'damage_radius': 3
+  'damage_radius': 0
+
+'confusion_scroll':
+  'char': '#'
+  'name': 'Confusion Scroll'
+  'color_r': 255
+  'color_g': 63
+  'color_b': 159
+  'item': 'item_component'
+  'item_use_function': 'cast_confuse'
+  'targeting': True
+  'targeting_message': 'Left-click an enemy to confuse it, or right-click to cancel.'
+  'damage': 0
+  'damage_radius': 0
+  'maximum_range': 0
+
+'lightning_scroll':
+  'char': '#'
+  'name': 'Lightning Scroll'
+  'color_r': 255
+  'color_g': 255
+  'color_b': 63
+  'item': 'item_component'
+  'item_use_function': 'cast_lightning'
+  'targeting': False
+  'damage': 40
+  'damage_radius': 0
+  'maximum_range': 5

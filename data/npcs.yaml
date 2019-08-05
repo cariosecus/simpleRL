@@ -5,7 +5,6 @@
   'color_b': 63
   'name': 'Orc'
   'blocks': True
-  'render_order': 'RenderOrder.ACTOR'
   'fighter_component': 'fighter_component'
   'ai_component': 'ai_component'
   'hp': 20
@@ -19,7 +18,6 @@
   'color_b': 95
   'name': 'Troll'
   'blocks': True
-  'render_order': 'RenderOrder.ACTOR'
   'fighter_component': 'fighter_component'
   'ai_component': 'ai_component'
   'hp': 30
