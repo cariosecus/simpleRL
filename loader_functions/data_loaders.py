@@ -78,7 +78,7 @@ def load_entity(listed, etype='npc',subtype=None, x=0, y=0):
 				elif equipable_slots == 'EquipmentSlots.OFF_LEGS':
 					eqslot = EquipmentSlots.OFF_LEGS
 				equipable_component = Equipable(eqslot, power_bonus=result['power_bonus'], defense_bonus=result['defense_bonus'], max_hp_bonus=result['max_hp_bonus'])
-				return Entity(x, y, result['char'], libtcod.Color(result['color_r'],result['color_g'],result['color_b']), result['name'], render_order=RenderOrder.ITEM, equipable_component = equipable_component)
+				return Entity(x, y, result['char'], libtcod.Color(result['color_r'],result['color_g'],result['color_b']), result['name'], render_order=RenderOrder.ITEM, equipable = equipable_component)
 def load_rand_entity(rarity='common',etype='npc',x=0,y=0):
 	listed = []
 	subtype = None
@@ -92,26 +92,7 @@ def load_rand_entity(rarity='common',etype='npc',x=0,y=0):
 					listed.append(loadednpcs[v]['name'])
 	elif etype == 'object':
 		subtype = 'item'
-		if rarity != 'common':
-			if randint(1,80):
-				subtype = 'item'
-				for v in loadeditems:
-					if loadeditems[v]['rarity'] == rarity:
-						listed.append(loadeditems[v]['name'])
-				if not listed:
-					for v in loadeditems:
-						if loadeditems[v]['rarity'] == 'common':
-							listed.append(loadeditems[v]['name'])
-			else:
-				subtype = 'equipment'
-				for v in loadedequipment:
-					if loadedequipment[v]['rarity'] == rarity:
-						listed.append(loadedequipment[v]['name'])
-				if not listed:
-					for v in loadedequipment:
-						if loadedequipment[v]['rarity'] == 'uncommon':
-							listed.append(loadedequipment[v]['name'])
-		else:
+		if randint(1,80) or rarity == 'common':
 			subtype = 'item'
 			for v in loadeditems:
 				if loadeditems[v]['rarity'] == rarity:
@@ -120,4 +101,13 @@ def load_rand_entity(rarity='common',etype='npc',x=0,y=0):
 				for v in loadeditems:
 					if loadeditems[v]['rarity'] == 'common':
 						listed.append(loadeditems[v]['name'])
+		else:
+			subtype = 'equipment'
+			for v in loadedequipment:
+				if loadedequipment[v]['rarity'] == rarity:
+					listed.append(loadedequipment[v]['name'])
+			if not listed:
+				for v in loadedequipment:
+					if loadedequipment[v]['rarity'] == 'uncommon':
+						listed.append(loadedequipment[v]['name'])
 	return load_entity(listed, etype, subtype, x, y)

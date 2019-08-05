@@ -10,7 +10,7 @@ from menus import main_menu, message_box
 # main process
 def main():
 	constants = get_constants()
-	libtcod.console_set_custom_font('images/arial12x12.png', libtcod.FONT_TYPE_GREYSCALE | libtcod.FONT_LAYOUT_TCOD)
+	libtcod.console_set_custom_font('images/terminal16x16_gs_ro.png', libtcod.FONT_LAYOUT_ASCII_INROW | libtcod.FONT_TYPE_GREYSCALE)
 	libtcod.console_init_root(constants['screen_width'], constants['screen_height'], constants['window_title'], False, libtcod.RENDERER_SDL2,'F',True)
 
 	con = libtcod.console.Console(constants['screen_width'], constants['screen_height'])
@@ -57,7 +57,7 @@ def main():
 			elif load_saved_game:
 				try:
 					player, entities, game_map, message_log, game_state = load_game()
-					show_main_menu = Falseaaa
+					show_main_menu = False
 				except FileNotFoundError:
 					show_load_error_message = True
 			elif exit_game:

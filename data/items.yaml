@@ -8,7 +8,7 @@
   'item': 'item_component'
   'item_use_function': 'heal'
   'targeting': False
-  'targeting_message': None
+  'targeting_message': ' '
   'item_amount': 40
   'damage_radius': 0
   'damage': 0
@@ -56,7 +56,7 @@
   'item': 'item_component'
   'item_use_function': 'cast_lightning'
   'targeting': False
-  'targeting_message': None
+  'targeting_message': ' '
   'damage': 40
   'maximum_range': 5
   'item_amount': 40

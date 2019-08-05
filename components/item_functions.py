@@ -2,14 +2,15 @@ import tcod as libtcod
 from game_messages import Message
 from components.ai import ConfusedEnemy
 from components.item import Item
-def get_function_by_name(name='Heal', item_amount=0,t_message='',damage_radius=0,damage=0,maximum_range=0):
-	if name == 'Heal':
-		return Item(use_function = heal, damage=damage, damage_radius=damage_radius)
-	elif name == 'Cast Fireball':
+
+def get_function_by_name(name='heal', item_amount=0,t_message='',damage_radius=0,damage=0,maximum_range=0):
+	if name == 'heal':
+		return Item(use_function = heal, amount = item_amount)
+	elif name == 'cast_fireball':
 		return Item(use_function = cast_fireball, targeting=True, targeting_message=Message(t_message,libtcod.light_cyan), damage=damage, radius=damage_radius)
-	elif name == 'Cast Confuse':
+	elif name == 'cast_confuse':
 		return Item(use_function = cast_confuse, targeting=True, targeting_message=Message(t_message,libtcod.light_cyan))
-	elif name == 'Cast Lightning':
+	elif name == 'cast_lightning':
 		return Item(use_function = cast_lightning, damage=damage, maximum_range=maximum_range)
 
 def heal(*args, **kwargs):
@@ -47,7 +48,7 @@ def cast_lightning(*args, **kwargs):
 				closest_distance = distance
 
 	if target:
-		results.append({'consumed': True, 'target': target, 'message': Message('A lighting bolt strikes the {0} with a loud thunder! The damage is {1}'.format(target.name, damage))})
+		results.append({'consumed': True, 'target': target, 'message': Message('A lighting bolt strikes the {0}! Dealt {1} damage.'.format(target.name, damage))})
 		results.extend(target.fighter.take_damage(damage))
 	else:
 		results.append({'consumed': False, 'target': None, 'message': Message('No enemy is close enough to strike.', libtcod.red)})

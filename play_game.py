@@ -48,6 +48,8 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 		show_character_screen = action.get('show_character_screen')
 		in_target = action.get("in_target")
 		mousemotion = action.get("mousemotion")
+		left_click = action.get('left_click')
+		right_click = action.get('right_click')
 
 		player_turn_results = []
 		if mousemotion:
@@ -72,6 +74,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 					fov_recompute = True
 			game_state = GameStates.ENEMY_TURN
 		elif wait:
+			message_log.add_message(Message('You wait.', libtcod.yellow))
 			game_state = GameStates.ENEMY_TURN
 
 		elif pickup and game_state == GameStates.PLAYERS_TURN:
@@ -163,10 +166,12 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 				previous_game_state = GameStates.PLAYERS_TURN
 				game_state = GameStates.TARGETING
 				targeting_item = targeting
-				message_log.add_message(targeting_item.item.targeting_message)
+				if isinstance(targeting_item.item.targeting_message, str):
+					message_log.add_message(targeting_item.item.targeting_message)
 
 			if targeting_cancelled:
 				game_state = previous_game_state
+				message_log.add_message(Message('Targeting cancelled'))
 
 			if xp:
 				leveled_up = player.level.add_xp(xp)
@@ -179,7 +184,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 					previous_game_state = game_state
 					game_state = GameStates.LEVEL_UP
 
-				message_log.add_message(Message('Targeting cancelled'))
 			if dead_entity:
 				if dead_entity == player:
 					message, game_state = kill_player(dead_entity)
