@@ -1,4 +1,4 @@
-'healing_potion':
+'Healing Potion':
   'char': '!'
   'name': 'Healing Potion'
   'rarity': 'common'
@@ -14,7 +14,7 @@
   'damage': 0
   'maximum_range': 0
 
-'fireball_scroll':
+'Fireball Scroll':
   'char': '#'
   'name': 'Fireball Scroll'
   'rarity': 'common'
@@ -30,7 +30,7 @@
   'item_amount': 0
   'maximum_range': 0
 
-'confusion_scroll':
+'Confusion Scroll':
   'char': '#'
   'name': 'Confusion Scroll'
   'rarity': 'very uncommon'
@@ -46,7 +46,7 @@
   'damage': 0
   'maximum_range': 0
 
-'lightning_scroll':
+'Lightning Scroll':
   'char': '#'
   'name': 'Lightning Scroll'
   'rarity': 'uncommon'

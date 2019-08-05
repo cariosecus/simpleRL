@@ -50,7 +50,6 @@ loadedchances = loadyaml('data/spawn_chances.yaml')
 
 def LoadEntity(listed, etype='npc',subtype=None, x=0, y=0):
 	if etype == 'npc':
-		loadednpcs = loadyaml('data/npcs.yaml')
 		rand_item = random.choice(listed)
 		result = loadednpcs[rand_item]
 		fighter_component = None
@@ -60,7 +59,7 @@ def LoadEntity(listed, etype='npc',subtype=None, x=0, y=0):
 		if result['ai_component']:
 			ai_component = BasicEnemy()
 		return Entity(x, y, result['char'], libtcod.Color(result['color_r'],result['color_g'],result['color_b']), result['name'], blocks=result['blocks'], render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
-	elif etype == 'item':
+	elif etype == 'object':
 		if subtype == 'item':
 			rand_item = random.choice(listed)
 			result = loadeditems[rand_item]
@@ -113,4 +112,13 @@ def LoadRandEntity(rarity='common',etype='npc',x=0,y=0):
 					for v in loadedequipment:
 						if loadedequipment[v]['rarity'] == 'uncommon':
 							listed.append(loadedequipment[v]['name'])
+		else:
+			subtype = 'item'
+			for v in loadeditems:
+				if loadeditems[v]['rarity'] == rarity:
+					listed.append(loadeditems[v]['name'])
+			if not listed:
+				for v in loadeditems:
+					if loadeditems[v]['rarity'] == 'common':
+						listed.append(loadeditems[v]['name'])
 	return LoadEntity(listed, etype, subtype, x, y)

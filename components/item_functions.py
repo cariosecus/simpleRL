@@ -1,23 +1,16 @@
 import tcod as libtcod
 from game_messages import Message
 from components.ai import ConfusedEnemy
-
-def get_function_by_name(name='heal', item_amount=0,targeting_message='',damage_radius=0,damage=0,maximum_range=0):
-	self.name = name
-	self.item_amount = item_amount
-	self.targeting_message = targeting_message
-	self.damage = damage
-	self.damage_radius = damage_radius
-	self.maximum_range = maximum_range
-	self.item_amount = item_amount
-	if name == 'heal':
-		return Item(use_function = heal, damage=self.damage, damage_radius=self.damage_radius)
-	elif name == 'cast_fireball':
-		return Item(use_function = cast_fireball, targeting = True, targeting_message=Message(targeting_message=self.targeting_message), damage=self.damage, radius=self.damage_radius)
-	elif name == 'cast_confuse':
-		return Item(use_function = cast_confuse, targeting = True, targeting_message=Message(targeting_message=self.targeting_message))
-	elif name == 'cast_lightning':
-		return Item(use_function = cast_lightning, damage=self.damage, maximum_range=self.maximum_range)
+from components.item import Item
+def get_function_by_name(name='Heal', item_amount=0,targeting_message='',damage_radius=0,damage=0,maximum_range=0):
+	if name == 'Heal':
+		return Item(use_function = heal, damage=damage, damage_radius=damage_radius)
+	elif name == 'Cast Fireball':
+		return Item(use_function = cast_fireball, targeting = True, targeting_message=Message(targeting_message=targeting_message), damage=damage, radius=damage_radius)
+	elif name == 'Cast Confuse':
+		return Item(use_function = cast_confuse, targeting = True, targeting_message=Message(targeting_message=targeting_message))
+	elif name == 'Cast Lightning':
+		return Item(use_function = cast_lightning, damage=damage, maximum_range=maximum_range)
 
 def heal(*args, **kwargs):
 	entity = args[0]
