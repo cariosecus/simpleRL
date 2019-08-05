@@ -48,7 +48,7 @@ loadeditems = loadyaml('data/items.yaml')
 loadedequipment = loadyaml('data/equipment.yaml')
 loadedchances = loadyaml('data/spawn_chances.yaml')
 
-def LoadEntity(listed, etype='npc',subtype=None, x=0, y=0):
+def load_entity(listed, etype='npc',subtype=None, x=0, y=0):
 	if etype == 'npc':
 		rand_item = random.choice(listed)
 		result = loadednpcs[rand_item]
@@ -67,7 +67,6 @@ def LoadEntity(listed, etype='npc',subtype=None, x=0, y=0):
 		elif subtype == 'equipment':
 			rand_item = random.choice(listed)
 			result = loadedequipment[rand_item]
-			equipable_component = None
 			if result['equipable_component']:
 				eqslot = EquipmentSlots.MAIN_HAND
 				if equipable_slots == 'EquipmentSlots.OFF_HAND':
@@ -78,9 +77,9 @@ def LoadEntity(listed, etype='npc',subtype=None, x=0, y=0):
 					eqslot = EquipmentSlots.OFF_TORSO
 				elif equipable_slots == 'EquipmentSlots.OFF_LEGS':
 					eqslot = EquipmentSlots.OFF_LEGS
-				equipable_component = Equippable(eqslot, power_bonus=result['power_bonus'], defense_bonus=result['defense_bonus'], max_hp_bonus=result['max_hp_bonus'])
-
-def LoadRandEntity(rarity='common',etype='npc',x=0,y=0):
+				equipable_component = Equipable(eqslot, power_bonus=result['power_bonus'], defense_bonus=result['defense_bonus'], max_hp_bonus=result['max_hp_bonus'])
+				return Entity(x, y, result['char'], libtcod.Color(result['color_r'],result['color_g'],result['color_b']), result['name'], render_order=RenderOrder.ITEM, equipable_component = equipable_component)
+def load_rand_entity(rarity='common',etype='npc',x=0,y=0):
 	listed = []
 	subtype = None
 	if etype == 'npc':
@@ -121,4 +120,4 @@ def LoadRandEntity(rarity='common',etype='npc',x=0,y=0):
 				for v in loadeditems:
 					if loadeditems[v]['rarity'] == 'common':
 						listed.append(loadeditems[v]['name'])
-	return LoadEntity(listed, etype, subtype, x, y)
+	return load_entity(listed, etype, subtype, x, y)

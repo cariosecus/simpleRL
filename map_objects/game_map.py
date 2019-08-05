@@ -5,13 +5,10 @@ from random_utils import from_dungeon_level, random_choice_from_dict
 from map_objects.tile import Tile
 from map_objects.rectangle import Rect
 from game_messages import Message
-from components.equipment import EquipmentSlots
-from components.equippable import Equippable
 from components.item import Item
-from components.item_functions import cast_fireball, cast_lightning, cast_confuse, heal
 from components.stairs import Stairs
 from render_functions import RenderOrder
-from loader_functions.data_loaders import LoadRandEntity
+from loader_functions.data_loaders import load_rand_entity
 
 class GameMap:
 	def __init__(self, width, height, dungeon_level=1):
@@ -117,7 +114,7 @@ class GameMap:
 			y = randint(room.y1 + 1, room.y2 - 1)
 
 			if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-				monster = LoadRandEntity(random_choice_from_dict('mobs'),'npc',x,y)
+				monster = load_rand_entity(random_choice_from_dict('mobs'),'npc',x,y)
 				entities.append(monster)
 
 		for _ in range(number_of_items):
@@ -125,7 +122,7 @@ class GameMap:
 			y = randint(room.y1 + 1, room.y2 - 1)
 
 			if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-				item = LoadRandEntity(random_choice_from_dict('objects'),'object',x,y)
+				item = load_rand_entity(random_choice_from_dict('objects'),'object',x,y)
 				entities.append(item)
 	def is_blocked(self, x, y):
 		if self.tiles[x][y].blocked:

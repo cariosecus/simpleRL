@@ -2,13 +2,13 @@ import tcod as libtcod
 from game_messages import Message
 from components.ai import ConfusedEnemy
 from components.item import Item
-def get_function_by_name(name='Heal', item_amount=0,targeting_message='',damage_radius=0,damage=0,maximum_range=0):
+def get_function_by_name(name='Heal', item_amount=0,t_message='',damage_radius=0,damage=0,maximum_range=0):
 	if name == 'Heal':
 		return Item(use_function = heal, damage=damage, damage_radius=damage_radius)
 	elif name == 'Cast Fireball':
-		return Item(use_function = cast_fireball, targeting = True, targeting_message=Message(targeting_message=targeting_message), damage=damage, radius=damage_radius)
+		return Item(use_function = cast_fireball, targeting=True, targeting_message=Message(t_message,libtcod.light_cyan), damage=damage, radius=damage_radius)
 	elif name == 'Cast Confuse':
-		return Item(use_function = cast_confuse, targeting = True, targeting_message=Message(targeting_message=targeting_message))
+		return Item(use_function = cast_confuse, targeting=True, targeting_message=Message(t_message,libtcod.light_cyan))
 	elif name == 'Cast Lightning':
 		return Item(use_function = cast_lightning, damage=damage, maximum_range=maximum_range)
 
