@@ -48,8 +48,8 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 		show_character_screen = action.get('show_character_screen')
 		in_target = action.get("in_target")
 		mousemotion = action.get("mousemotion")
-		left_click = action.get('left_click')
-		right_click = action.get('right_click')
+		left_click = action.get('in_target')
+		right_click = action.get('cancel_target')
 
 		player_turn_results = []
 		if mousemotion:

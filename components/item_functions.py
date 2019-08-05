@@ -3,7 +3,7 @@ from game_messages import Message
 from components.ai import ConfusedEnemy
 from components.item import Item
 
-def get_function_by_name(name='heal', item_amount=0,t_message='',damage_radius=0,damage=0,maximum_range=0):
+def get_function_by_name(name='heal',t_message='',item_amount=0,damage_radius=0,damage=0,maximum_range=0):
 	if name == 'heal':
 		return Item(use_function = heal, amount = item_amount)
 	elif name == 'cast_fireball':
