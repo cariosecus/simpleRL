@@ -5,15 +5,13 @@ from random_utils import from_dungeon_level, random_choice_from_dict
 from map_objects.tile import Tile
 from map_objects.rectangle import Rect
 from game_messages import Message
-from components.ai import BasicEnemy
 from components.equipment import EquipmentSlots
 from components.equippable import Equippable
-from components.fighter import Fighter
 from components.item import Item
 from components.item_functions import cast_fireball, cast_lightning, cast_confuse, heal
 from components.stairs import Stairs
 from render_functions import RenderOrder
-from loader_functions.data_loaders import LoadEntity
+from loader_functions.data_loaders import LoadRandEntity
 
 class GameMap:
 	def __init__(self, width, height, dungeon_level=1):
@@ -113,11 +111,6 @@ class GameMap:
 		number_of_monsters = randint(0, max_monsters_per_room)
 		number_of_items = randint(0, max_items_per_room)
 
-		monster_chances = {
-			'orc': 80,
-			'troll': from_dungeon_level([[15, 3], [30, 5], [60, 7]], self.dungeon_level)
-		}
-
 		item_chances = {
 			'healing_potion': 35,
 			'lightning_scroll': from_dungeon_level([[25, 4]], self.dungeon_level),
@@ -130,8 +123,8 @@ class GameMap:
 			y = randint(room.y1 + 1, room.y2 - 1)
 
 			if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-				monster_choice = random_choice_from_dict(monster_chances)
-				monster = LoadEntity(monster_choice,'npc',x,y)
+				rarity = random_choice_from_dict('mobs')
+				monster = LoadRandEntity(rarity,'npc',x,y)
 
 				entities.append(monster)
 
@@ -140,7 +133,7 @@ class GameMap:
 			y = randint(room.y1 + 1, room.y2 - 1)
 
 			if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-				item_choice = random_choice_from_dict(item_chances)
+				item_choice = 'healing_potion' #random_choice_from_dict('items')
 
 				if item_choice == 'healing_potion':
 					item_component = Item(use_function=heal, amount=40)

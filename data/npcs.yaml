@@ -3,7 +3,8 @@
   'color_r': 63
   'color_g': 127
   'color_b': 63
-  'name': 'Orc'
+  'name': 'orc'
+  'rarity': 'common'
   'blocks': True
   'fighter_component': 'fighter_component'
   'ai_component': 'ai_component'
@@ -16,7 +17,8 @@
   'color_r': 95
   'color_g': 95
   'color_b': 95
-  'name': 'Troll'
+  'name': 'troll'
+  'rarity': 'uncommon'
   'blocks': True
   'fighter_component': 'fighter_component'
   'ai_component': 'ai_component'

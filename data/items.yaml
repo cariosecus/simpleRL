@@ -1,6 +1,7 @@
 'healing_potion':
   'char': '!'
   'name': 'Healing Potion'
+  'rarity': 'common'
   'color_r': 191
   'color_g': 127
   'color_b': 255
@@ -11,6 +12,7 @@
 'fireball_scroll':
   'char': '#'
   'name': 'Fireball Scroll'
+  'rarity': 'common'
   'color_r': 255
   'color_g': 0
   'color_b': 0
@@ -25,6 +27,7 @@
 'confusion_scroll':
   'char': '#'
   'name': 'Confusion Scroll'
+  'rarity': 'uncommon'
   'color_r': 255
   'color_g': 63
   'color_b': 159
@@ -39,6 +42,7 @@
 'lightning_scroll':
   'char': '#'
   'name': 'Lightning Scroll'
+  'rarity': 'uncommon'
   'color_r': 255
   'color_g': 255
   'color_b': 63

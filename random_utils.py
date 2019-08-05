@@ -1,4 +1,5 @@
 from random import randint
+from loader_functions.data_loaders import loadedchances
 
 def from_dungeon_level(table, dungeon_level):
 	for (value, level) in reversed(table):
@@ -19,7 +20,8 @@ def random_choice_index(chances):
 		choice += 1
 
 def random_choice_from_dict(choice_dict):
-	choices = list(choice_dict.keys())
-	chances = list(choice_dict.values())
-
-	return choices[random_choice_index(chances)]
+	currentprob = randint(1,100)
+	result = loadedchances[choice_dict]
+	for i in result:
+		if currentprob <= i:
+			return result[i]

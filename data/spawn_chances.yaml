@@ -1,0 +1,11 @@
+'mobs':
+  2: 'very rare'
+  6: 'rare'
+  20: 'uncommon'
+  72: 'common'
+
+'objects':
+  2: 'very rare'
+  4: 'rare'
+  30: 'uncommon'
+  64: 'common'
