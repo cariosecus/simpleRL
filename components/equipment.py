@@ -10,11 +10,11 @@ class Equipment:
 	def max_hp_bonus(self):
 		bonus = 0
 
-		if self.main_hand and self.main_hand.equippable:
-			bonus += self.main_hand.equippable.max_hp_bonus
+		if self.main_hand and self.main_hand.equipable:
+			bonus += self.main_hand.equipable.max_hp_bonus
 
-		if self.off_hand and self.off_hand.equippable:
-			bonus += self.off_hand.equippable.max_hp_bonus
+		if self.off_hand and self.off_hand.equipable:
+			bonus += self.off_hand.equipable.max_hp_bonus
 
 		return bonus
 
@@ -22,11 +22,11 @@ class Equipment:
 	def power_bonus(self):
 		bonus = 0
 
-		if self.main_hand and self.main_hand.equippable:
-			bonus += self.main_hand.equippable.power_bonus
+		if self.main_hand and self.main_hand.equipable:
+			bonus += self.main_hand.equipable.power_bonus
 
-		if self.off_hand and self.off_hand.equippable:
-			bonus += self.off_hand.equippable.power_bonus
+		if self.off_hand and self.off_hand.equipable:
+			bonus += self.off_hand.equipable.power_bonus
 
 		return bonus
 
@@ -34,38 +34,38 @@ class Equipment:
 	def defense_bonus(self):
 		bonus = 0
 
-		if self.main_hand and self.main_hand.equippable:
-			bonus += self.main_hand.equippable.defense_bonus
+		if self.main_hand and self.main_hand.equipable:
+			bonus += self.main_hand.equipable.defense_bonus
 
-		if self.off_hand and self.off_hand.equippable:
-			bonus += self.off_hand.equippable.defense_bonus
+		if self.off_hand and self.off_hand.equipable:
+			bonus += self.off_hand.equipable.defense_bonus
 
 		return bonus
 
-	def toggle_equip(self, equippable_entity):
+	def toggle_equip(self, equipable_entity):
 		results = []
 
-		slot = equippable_entity.equippable.slot
+		slot = equipable_entity.equipable.slot
 
 		if slot == EquipmentSlots.MAIN_HAND:
-			if self.main_hand == equippable_entity:
+			if self.main_hand == equipable_entity:
 				self.main_hand = None
-				results.append({'dequipped': equippable_entity})
+				results.append({'dequiped': equipable_entity})
 			else:
 				if self.main_hand:
-					results.append({'dequipped': self.main_hand})
+					results.append({'dequiped': self.main_hand})
 
-				self.main_hand = equippable_entity
-				results.append({'equipped': equippable_entity})
+				self.main_hand = equipable_entity
+				results.append({'equiped': equipable_entity})
 		elif slot == EquipmentSlots.OFF_HAND:
-			if self.off_hand == equippable_entity:
+			if self.off_hand == equipable_entity:
 				self.off_hand = None
-				results.append({'dequipped': equippable_entity})
+				results.append({'dequiped': equipable_entity})
 			else:
 				if self.off_hand:
-					results.append({'dequipped': self.off_hand})
+					results.append({'dequiped': self.off_hand})
 
-				self.off_hand = equippable_entity
-				results.append({'equipped': equippable_entity})
+				self.off_hand = equipable_entity
+				results.append({'equiped': equipable_entity})
 
 		return results

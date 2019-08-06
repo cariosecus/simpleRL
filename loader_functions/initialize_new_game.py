@@ -1,7 +1,7 @@
 import tcod as libtcod
 from components.equipment import Equipment
-from entities.entity import Entity
-from components.equippable import Equipable
+from entity import Entity
+from components.equipable import Equipable
 from components.fighter import Fighter
 from components.inventory import Inventory
 from game_messages import MessageLog
@@ -75,13 +75,13 @@ def get_game_variables(constants):
 	player = Entity(0, 0, '@', libtcod.white, 'Player', blocks=True, render_order=RenderOrder.ACTOR,fighter=fighter_component, inventory=inventory_component, level=level_component,equipment=equipment_component)
 	entities = [player]
 
-	equippable_component = Equipable(EquipmentSlots.MAIN_HAND, power_bonus=2)
-	dagger = Entity(0, 0, '-', libtcod.sky, 'Dagger', equippable=equippable_component)
+	equipable_component = Equipable(EquipmentSlots.MAIN_HAND, power_bonus=2)
+	dagger = Entity(0, 0, '-', libtcod.sky, 'Dagger', equipable=equipable_component)
 	player.inventory.add_item(dagger)
 	player.equipment.toggle_equip(dagger)
 
-	game_map = GameMap(constants['screen_width'], constants['screen_height'])
-	game_map.make_map(constants['max_rooms'], constants['room_min_size'], constants['room_max_size'], constants['screen_width'], constants['screen_height'], player, entities)
+	game_map = GameMap(constants['map_width'], constants['map_height'])
+	game_map.make_map(constants['max_rooms'], constants['room_min_size'], constants['room_max_size'], constants['map_width'], constants['map_height'], player, entities)
 	message_log = MessageLog(constants['message_x'], constants['message_width'], constants['message_height'], 100)
 
 	game_state = GameStates.PLAYERS_TURN

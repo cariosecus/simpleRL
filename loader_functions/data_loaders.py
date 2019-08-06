@@ -4,7 +4,7 @@ import yaml
 from components.fighter import Fighter
 from components.ai import BasicEnemy
 from components.item_functions import get_function_by_name
-from entities.entity import Entity
+from entity import Entity
 from render_functions import RenderOrder
 import tcod as libtcod
 import random

@@ -4,7 +4,7 @@ from render_functions import RenderOrder
 from components.item import Item
 
 class Entity:
-	def __init__(self, x, y, char, color, name, blocks=False, render_order=RenderOrder.CORPSE, fighter=None, ai=None, item=None, inventory=None, stairs=None, level=None, equipment=None, equippable=None):
+	def __init__(self, x, y, char, color, name, blocks=False, render_order=RenderOrder.CORPSE, fighter=None, ai=None, item=None, inventory=None, stairs=None, level=None, equipment=None, equipable=None):
 		self.x = x
 		self.y = y
 		self.char = char
@@ -19,7 +19,7 @@ class Entity:
 		self.stairs = stairs
 		self.level = level
 		self.equipment = equipment
-		self.equippable = equippable
+		self.equipable = equipable
 
 		if self.fighter:
 			self.fighter.owner = self
@@ -35,8 +35,8 @@ class Entity:
 			self.level.owner = self
 		if self.equipment:
 			self.equipment.owner = self
-		if self.equippable:
-			self.equippable.owner = self
+		if self.equipable:
+			self.equipable.owner = self
 			if not self.item:
 				item = Item()
 				self.item = item
@@ -102,7 +102,7 @@ class Entity:
 		libtcod.path_delete(my_path)
 	def distance(self, x, y):
 		return math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
-		
+
 	def distance_to(self, other):
 		dx = other.x - self.x
 		dy = other.y - self.y

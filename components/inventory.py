@@ -30,9 +30,9 @@ class Inventory:
 		item_component = item_entity.item
 
 		if item_component.use_function is None:
-			equippable_component = item_entity.equippable
+			equipable_component = item_entity.equipable
 
-			if equippable_component:
+			if equipable_component:
 				results.append({'equip': item_entity})
 			else:
 				results.append({'message': Message('The {0} cannot be used'.format(item_entity.name), libtcod.yellow)})

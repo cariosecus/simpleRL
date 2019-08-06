@@ -1,7 +1,7 @@
 import tcod as libtcod
 import tcod.event
 from input_handlers import InputHandler
-from entities.entity import get_blocking_entities_at_location
+from entity import get_blocking_entities_at_location
 from render_functions import clear_all, render_all
 from fov_functions import initialize_fov, recompute_fov
 from game_states import GameStates
@@ -50,14 +50,26 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 		mousemotion = action.get("mousemotion")
 		left_click = action.get('in_target')
 		right_click = action.get('cancel_target')
+		msg_up = action.get("msg_up")
+		msg_down = action.get("msg_down")
 
 		player_turn_results = []
+
 		if mousemotion:
 			render_update = True
 		if render_update:
 			render_all(con, panel, entities, player, game_map, fov_map, fov_recompute, message_log, constants['screen_width'], constants['screen_height'], constants['bar_width'], constants['panel_height'], constants['panel_y'], constants['colors'], game_state, mouse)
 			tcod.console_flush()
 			render_update = False
+		if msg_up:
+			if message_log.bottom < message_log.length - message_log.height:
+				message_log.scroll(1)
+				render_update = True
+
+		if msg_down:
+			if message_log.bottom > 0:
+				message_log.scroll(-1)
+				render_update = True
 		if move and game_state == GameStates.PLAYERS_TURN:
 			dx, dy = move
 			destination_x = player.x + dx
@@ -220,14 +232,14 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 				equip_results = player.equipment.toggle_equip(equip)
 
 				for equip_result in equip_results:
-					equipped = equip_result.get('equipped')
-					dequipped = equip_result.get('dequipped')
+					equiped = equip_result.get('equiped')
+					dequiped = equip_result.get('dequiped')
 
-					if equipped:
-						message_log.add_message(Message('You equipped the {0}'.format(equipped.name)))
+					if equiped:
+						message_log.add_message(Message('You equiped the {0}'.format(equiped.name)))
 
-					if dequipped:
-						message_log.add_message(Message('You dequipped the {0}'.format(dequipped.name)))
+					if dequiped:
+						message_log.add_message(Message('You dequiped the {0}'.format(dequiped.name)))
 
 				game_state = GameStates.ENEMY_TURN
 

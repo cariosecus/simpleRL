@@ -1,6 +1,6 @@
 import tcod as libtcod
 from random import randint
-from entities.entity import *
+from entity import *
 from random_utils import from_dungeon_level, random_choice_from_dict
 from map_objects.tile import Tile
 from map_objects.rectangle import Rect

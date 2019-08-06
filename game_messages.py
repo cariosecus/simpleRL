@@ -2,13 +2,8 @@ import tcod as libtcod
 import textwrap
 from collections import deque
 
-import tcod
-from collections import deque
-import textwrap
-
-
 class Message:
-	def __init__(self, text, color=tcod.white):
+	def __init__(self, text, color=libtcod.white):
 		self.text = text
 		self.color = color
 
@@ -31,7 +26,7 @@ class MessageLog:
 		# pre-load empty messages so it doesn't crash
 		# I don't like this but it's an easy fix
 		for _ in range(0, self.height):
-			self.messages.appendleft(Message('', tcod.white))
+			self.messages.appendleft(Message('', libtcod.white))
 
 	def add_message(self, message):
 		new_msg_lines = textwrap.wrap(message.text, self.width)
