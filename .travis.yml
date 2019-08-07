@@ -23,12 +23,21 @@ addons:
       - libsdl2-dev
 services:
   - xvfb
-install:
-  - sudo apt-get install g++-8 libsdl2-dev
-  - pip install setuptools numpy cffi pyyaml tcod
+
+before_install:
+- source travis/before_install.sh
+- 'wget https://bootstrap.pypa.io/get-pip.py'
+- python get-pip.py
+- pip install --upgrade setuptools
+- pip install --pre --upgrade wheel
+- pip install pycparser cffi setuptools sdl2-lib pyyaml tcod
+before_script:
+- pip install --upgrade pytest pytest-cov
 script:
-  - python engine.py
+ - pytest
 after_success:
-  - pip install codacy-coverage
-  - coverage xml
-  - python-codacy-coverage -r coverage.xml
+- if [[ -n "$TRAVIS_TAG" ]]; then pip install --upgrade twine; fi
+- if [[ -n "$TRAVIS_TAG" && -z "$PYPY3_VERSION" ]]; then pip install --upgrade pyOpenSSL; fi
+- pip install codacy-coverage
+- coverage xml
+- if [[ -n "$CODACY_PROJECT_TOKEN" ]]; then python-codacy-coverage -r coverage.xml || true; fi

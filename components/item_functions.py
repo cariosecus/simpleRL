@@ -3,104 +3,122 @@ from game_messages import Message
 from components.ai import ConfusedEnemy
 from components.item import Item
 
-def get_function_by_name(name='heal',t_message='',item_amount=0,damage_radius=0,damage=0,maximum_range=0):
+
+def get_function_by_name(name='heal', t_message='', item_amount=0, damage_radius=0, damage=0, maximum_range=0):
 	if name == 'heal':
 		return Item(use_function=heal, amount=item_amount)
 	elif name == 'cast_fireball':
-		return Item(use_function=cast_fireball, targeting=True, targeting_message=Message(t_message,libtcod.light_cyan), damage=damage, radius=damage_radius)
+		return Item(use_function=cast_fireball, targeting=True, targeting_message=Message(t_message, libtcod.light_cyan), damage=damage, radius=damage_radius)
 	elif name == 'cast_confuse':
-		return Item(use_function=cast_confuse, targeting=True, targeting_message=Message(t_message,libtcod.light_cyan))
+		return Item(use_function=cast_confuse, targeting=True, targeting_message=Message(t_message, libtcod.light_cyan))
 	elif name == 'cast_lightning':
 		return Item(use_function=cast_lightning, damage=damage, maximum_range=maximum_range)
 
-def heal(*args, **kwargs):
-	entity=args[0]
-	amount=kwargs.get('amount')
 
-	results=[]
+def heal(*args, **kwargs):
+	entity = args[0]
+	amount = kwargs.get('amount')
+
+	results = []
 
 	if entity.fighter.hp == entity.fighter.max_hp:
-		results.append({'consumed': False, 'message': Message('You are already at full health', libtcod.yellow)})
+		results.append({'consumed': False, 'message': Message(
+			'You are already at full health', libtcod.yellow)})
 	else:
 		entity.fighter.heal(amount)
-		results.append({'consumed': True, 'message': Message('Your wounds start to feel better!', libtcod.green)})
+		results.append({'consumed': True, 'message': Message(
+			'Your wounds start to feel better!', libtcod.green)})
 
 	return results
 
+
 def cast_lightning(*args, **kwargs):
-	caster=args[0]
-	entities=kwargs.get('entities')
-	fov_map=kwargs.get('fov_map')
-	damage=kwargs.get('damage')
-	maximum_range=kwargs.get('maximum_range')
+	caster = args[0]
+	entities = kwargs.get('entities')
+	fov_map = kwargs.get('fov_map')
+	damage = kwargs.get('damage')
+	maximum_range = kwargs.get('maximum_range')
 
-	results=[]
+	results = []
 
-	target=None
-	closest_distance=maximum_range + 1
+	target = None
+	closest_distance = maximum_range + 1
 
 	for entity in entities:
 		if entity.fighter and entity != caster and libtcod.map_is_in_fov(fov_map, entity.x, entity.y):
-			distance=caster.distance_to(entity)
+			distance = caster.distance_to(entity)
 
 			if distance < closest_distance:
-				target=entity
-				closest_distance=distance
+				target = entity
+				closest_distance = distance
 
 	if target:
-		results.append({'consumed': True, 'target': target, 'message': Message('A lighting bolt strikes the {0}! Dealt {1} damage.'.format(target.name, damage))})
+		results.append({'consumed': True, 'target': target, 'message': Message(
+			'A lighting bolt strikes the {0}! Dealt {1} damage.'.format(target.name, damage))})
 		results.extend(target.fighter.take_damage(damage))
 	else:
-		results.append({'consumed': False, 'target': None, 'message': Message('No enemy is close enough to strike.', libtcod.red)})
+		results.append({'consumed': False, 'target': None, 'message': Message(
+			'No enemy is close enough to strike.', libtcod.red)})
 
 	return results
 
-def cast_fireball(*args, **kwargs):
-	entities=kwargs.get('entities')
-	fov_map=kwargs.get('fov_map')
-	damage=kwargs.get('damage')
-	radius=kwargs.get('radius')
-	target_x=kwargs.get('target_x')
-	target_y=kwargs.get('target_y')
 
-	results=[]
+def cast_target(fov_map, target_x, target_y):
+	results = []
 
 	if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
-		results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
+		results.append({'consumed': False, 'message': Message(
+			'You cannot target a tile outside your field of view.', libtcod.yellow)})
 		return results
 
-	results.append({'consumed': True, 'message': Message('The fireball explodes, burning everything within {0} tiles!'.format(radius), libtcod.orange)})
+
+def cast_fireball(*args, **kwargs):
+	entities = kwargs.get('entities')
+	fov_map = kwargs.get('fov_map')
+	damage = kwargs.get('damage')
+	radius = kwargs.get('radius')
+	target_x = kwargs.get('target_x')
+	target_y = kwargs.get('target_y')
+
+	results = []
+
+	cast_target(fov_map, target_x, target_y)
+
+	results.append({'consumed': True, 'message': Message(
+		'The fireball explodes, burning everything within {0} tiles!'.format(radius), libtcod.orange)})
 
 	for entity in entities:
 		if entity.distance(target_x, target_y) <= radius and entity.fighter:
-			results.append({'message': Message('The {0} gets burned for {1} hit points.'.format(entity.name, damage), libtcod.orange)})
+			results.append({'message': Message(
+				'The {0} gets burned for {1} hit points.'.format(entity.name, damage), libtcod.orange)})
 			results.extend(entity.fighter.take_damage(damage))
 
 	return results
 
+
 def cast_confuse(*args, **kwargs):
-	entities=kwargs.get('entities')
-	fov_map=kwargs.get('fov_map')
-	target_x=kwargs.get('target_x')
-	target_y=kwargs.get('target_y')
+	entities = kwargs.get('entities')
+	fov_map = kwargs.get('fov_map')
+	target_x = kwargs.get('target_x')
+	target_y = kwargs.get('target_y')
 
-	results=[]
+	results = []
 
-	if not libtcod.map_is_in_fov(fov_map, target_x, target_y):
-		results.append({'consumed': False, 'message': Message('You cannot target a tile outside your field of view.', libtcod.yellow)})
-		return results
+	cast_target(fov_map, target_x, target_y)
 
 	for entity in entities:
 		if entity.x == target_x and entity.y == target_y and entity.ai:
-			confused_ai=ConfusedEnemy(entity.ai, 10)
+			confused_ai = ConfusedEnemy(entity.ai, 10)
 
-			confused_ai.owner=entity
-			entity.ai=confused_ai
+			confused_ai.owner = entity
+			entity.ai = confused_ai
 
-			results.append({'consumed': True, 'message': Message('The eyes of the {0} look vacant, as he starts to stumble around!'.format(entity.name), libtcod.light_green)})
+			results.append({'consumed': True, 'message': Message(
+				'The eyes of the {0} look vacant, as he starts to stumble around!'.format(entity.name), libtcod.light_green)})
 
 			break
 	else:
-		results.append({'consumed': False, 'message': Message('There is no targetable enemy at that location.', libtcod.yellow)})
+		results.append({'consumed': False, 'message': Message(
+			'There is no targetable enemy at that location.', libtcod.yellow)})
 
 	return results

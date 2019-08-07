@@ -11,8 +11,10 @@ from menus import main_menu, message_box
 # main process
 def main():
 	constants = get_constants()
-	libtcod.console_set_custom_font('images/simplerl_12x12.png', libtcod.FONT_LAYOUT_ASCII_INROW | libtcod.FONT_TYPE_GREYSCALE)
-	libtcod.console_init_root(constants['screen_width'], constants['screen_height'], constants['window_title'], False, libtcod.RENDERER_SDL2, 'F', True)
+	libtcod.console_set_custom_font('images/simplerl_12x12.png',
+									libtcod.FONT_LAYOUT_ASCII_INROW | libtcod.FONT_TYPE_GREYSCALE)
+	libtcod.console_init_root(constants['screen_width'], constants['screen_height'],
+							constants['window_title'], False, libtcod.RENDERER_SDL2, 'F', True)
 
 	con = libtcod.console.Console(constants['screen_width'], constants['screen_height'])
 	panel = libtcod.console.Console(constants['screen_width'], constants['panel_height'])
@@ -32,10 +34,12 @@ def main():
 # main game loop
 	while True:
 		if show_main_menu:
-			main_menu(con, main_menu_background_image, constants['screen_width'], constants['screen_height'])
+			main_menu(con, main_menu_background_image,
+					constants['screen_width'], constants['screen_height'])
 
 			if show_load_error_message:
-				message_box(con, 'No save game to load', 50, constants['screen_width'], constants['screen_height'])
+				message_box(con, 'No save game to load', 50,
+							constants['screen_width'], constants['screen_height'])
 
 			libtcod.console_flush()
 			game_state = GameStates.MAIN_MENU
