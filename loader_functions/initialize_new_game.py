@@ -11,6 +11,7 @@ from render_functions import RenderOrder
 from components.level import Level
 from equipment_slots import EquipmentSlots
 
+
 def get_constants():
 	WINDOW_TITLE = "SimpleRL"
 	SCREEN_WIDTH = 80
@@ -67,12 +68,13 @@ def get_constants():
 	}
 	return constants
 
+
 def get_game_variables(constants):
 	fighter_component = Fighter(hp=100, defense=1, power=2)
 	inventory_component = Inventory(26)
 	level_component = Level()
 	equipment_component = Equipment()
-	player = Entity(0, 0, 208, libtcod.lightest_gray, 'Player', blocks=True, render_order=RenderOrder.ACTOR,fighter=fighter_component, inventory=inventory_component, level=level_component,equipment=equipment_component)
+	player = Entity(0, 0, 208, libtcod.lightest_gray, 'Player', blocks=True, render_order=RenderOrder.ACTOR, fighter=fighter_component, inventory=inventory_component, level=level_component, equipment=equipment_component)
 	entities = [player]
 
 	equipable_component = Equipable(EquipmentSlots.MAIN_HAND, power_bonus=0.75)

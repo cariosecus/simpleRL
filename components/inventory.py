@@ -3,11 +3,11 @@ from game_messages import Message
 
 class Inventory:
 	def __init__(self, capacity):
-		self.capacity = capacity
-		self.items = []
+		self.capacity=capacity
+		self.items=[]
 
 	def add_item(self, item):
-		results = []
+		results=[]
 
 		if len(self.items) >= self.capacity:
 			results.append({
@@ -25,12 +25,12 @@ class Inventory:
 		return results
 
 	def use(self, item_entity, **kwargs):
-		results = []
+		results=[]
 
-		item_component = item_entity.item
+		item_component=item_entity.item
 
 		if item_component.use_function is None:
-			equipable_component = item_entity.equipable
+			equipable_component=item_entity.equipable
 
 			if equipable_component:
 				results.append({'equip': item_entity})
@@ -40,8 +40,8 @@ class Inventory:
 			if item_component.targeting and not (kwargs.get('target_x') or kwargs.get('target_y')):
 				results.append({'targeting': item_entity})
 			else:
-				kwargs = {**item_component.function_kwargs, **kwargs}
-				item_use_results = item_component.use_function(self.owner, **kwargs)
+				kwargs={**item_component.function_kwargs, **kwargs}
+				item_use_results=item_component.use_function(self.owner, **kwargs)
 
 				for item_use_result in item_use_results:
 					if item_use_result.get('consumed'):
@@ -55,11 +55,11 @@ class Inventory:
 		self.items.remove(item)
 
 	def drop_item(self, item):
-		results = []
+		results=[]
 		if self.owner.equipment.main_hand == item or self.owner.equipment.off_hand == item:
 			self.owner.equipment.toggle_equip(item)
-		item.x = self.owner.x
-		item.y = self.owner.y
+		item.x=self.owner.x
+		item.y=self.owner.y
 
 		self.remove_item(item)
 		results.append({'item_dropped': item, 'message': Message('You dropped the {0}'.format(item.name),libtcod.yellow)})

@@ -3,6 +3,7 @@ from render_functions import RenderOrder
 from game_states import GameStates
 from game_messages import Message
 
+
 def kill_player(player):
 	player.char = 224
 	player.color = libtcod.lightest_grey

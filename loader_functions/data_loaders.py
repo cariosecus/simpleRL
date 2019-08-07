@@ -4,11 +4,14 @@ import yaml
 from components.fighter import Fighter
 from components.ai import BasicEnemy
 from components.item_functions import get_function_by_name
+from components.equipable import Equipable
+from equipment_slots import EquipmentSlots
 from entity import Entity
 from render_functions import RenderOrder
 import tcod as libtcod
 import random
 from random import randint
+
 
 def save_game(player, entities, game_map, message_log, game_state):
 	with shelve.open('savegame.dat', 'n') as data_file:
@@ -17,6 +20,7 @@ def save_game(player, entities, game_map, message_log, game_state):
 		data_file['game_map'] = game_map
 		data_file['message_log'] = message_log
 		data_file['game_state'] = game_state
+
 
 def load_game():
 	if not os.path.isfile('saved_games/savegame.dat'):
@@ -33,22 +37,26 @@ def load_game():
 
 	return player, entities, game_map, message_log, game_state
 
+
 def loadyaml(filepath):
 	with open(filepath, "r") as file_descriptor:
 		loaded = yaml.safe_load(file_descriptor)
 	return loaded
 
-def dumpyaml(file = None, data = None):
+
+def dumpyaml(file=None, data=None):
 	if data:
 		with open(file, "w") as file_descriptor:
 			yaml.dump(file, file_descriptor)
+
 
 loadednpcs = loadyaml('data/npcs.yaml')
 loadeditems = loadyaml('data/items.yaml')
 loadedequipment = loadyaml('data/equipment.yaml')
 loadedchances = loadyaml('data/spawn_chances.yaml')
 
-def load_entity(listed, etype='npc',subtype=None, x=0, y=0):
+
+def load_entity(listed, etype='npc', subtype=None, x=0, y=0):
 	if etype == 'npc':
 		rand_item = random.choice(listed)
 		result = loadednpcs[rand_item]
@@ -58,28 +66,30 @@ def load_entity(listed, etype='npc',subtype=None, x=0, y=0):
 			fighter_component = Fighter(result['hp'], result['defense'], result['power'], result['xp'])
 		if result['ai_component']:
 			ai_component = BasicEnemy()
-		return Entity(x, y, result['char'], libtcod.Color(result['color_r'],result['color_g'],result['color_b']), result['name'], blocks=result['blocks'], render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
+		return Entity(x, y, result['char'], libtcod.Color(result['color_r'], result['color_g'], result['color_b']), result['name'], blocks=result['blocks'], render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
 	elif etype == 'object':
 		if subtype == 'item':
 			rand_item = random.choice(listed)
 			result = loadeditems[rand_item]
-			return Entity(x, y, result['char'], libtcod.Color(result['color_r'],result['color_g'],result['color_b']), result['name'], render_order=RenderOrder.ITEM, item = get_function_by_name(result['item_use_function'], result['targeting_message'],result['item_amount'],result['damage_radius'], result['damage'], result['maximum_range']))
+			return Entity(x, y, result['char'], libtcod.Color(result['color_r'], result['color_g'], result['color_b']), result['name'], render_order=RenderOrder.ITEM, item=get_function_by_name(result['item_use_function'], result['targeting_message'], result['item_amount'], result['damage_radius'], result['damage'], result['maximum_range']))
 		elif subtype == 'equipment':
 			rand_item = random.choice(listed)
 			result = loadedequipment[rand_item]
 			if result['equipable_component']:
 				eqslot = EquipmentSlots.MAIN_HAND
-				if equipable_slots == 'EquipmentSlots.OFF_HAND':
+				if result['equipable_slots'] == 'EquipmentSlots.OFF_HAND':
 					eqslot = EquipmentSlots.OFF_HAND
-				elif equipable_slots == 'EquipmentSlots.OFF_HEAD':
+				elif result['equipable_slots'] == 'EquipmentSlots.OFF_HEAD':
 					eqslot = EquipmentSlots.OFF_HEAD
-				elif equipable_slots == 'EquipmentSlots.OFF_TORSO':
+				elif result['equipable_slots'] == 'EquipmentSlots.OFF_TORSO':
 					eqslot = EquipmentSlots.OFF_TORSO
-				elif equipable_slots == 'EquipmentSlots.OFF_LEGS':
+				elif result['equipable_slots'] == 'EquipmentSlots.OFF_LEGS':
 					eqslot = EquipmentSlots.OFF_LEGS
 				equipable_component = Equipable(eqslot, power_bonus=result['power_bonus'], defense_bonus=result['defense_bonus'], max_hp_bonus=result['max_hp_bonus'])
-				return Entity(x, y, result['char'], libtcod.Color(result['color_r'],result['color_g'],result['color_b']), result['name'], render_order=RenderOrder.ITEM, equipable = equipable_component)
-def load_rand_entity(rarity='common',etype='npc',x=0,y=0):
+				return Entity(x, y, result['char'], libtcod.Color(result['color_r'], result['color_g'], result['color_b']), result['name'], render_order=RenderOrder.ITEM, equipable=equipable_component)
+
+
+def load_rand_entity(rarity='common', etype='npc', x=0, y=0):
 	listed = []
 	subtype = None
 	if etype == 'npc':
@@ -92,7 +102,7 @@ def load_rand_entity(rarity='common',etype='npc',x=0,y=0):
 					listed.append(loadednpcs[v]['name'])
 	elif etype == 'object':
 		subtype = 'item'
-		if randint(1,80) or rarity == 'common':
+		if randint(1, 80) or rarity == 'common':
 			subtype = 'item'
 			for v in loadeditems:
 				if loadeditems[v]['rarity'] == rarity:

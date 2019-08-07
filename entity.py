@@ -5,42 +5,42 @@ from components.item import Item
 
 class Entity:
 	def __init__(self, x, y, char, color, name, blocks=False, render_order=RenderOrder.CORPSE, fighter=None, ai=None, item=None, inventory=None, stairs=None, level=None, equipment=None, equipable=None):
-		self.x = x
-		self.y = y
-		self.char = char
-		self.color = color
-		self.name = name
-		self.blocks = blocks
-		self.fighter = fighter
-		self.render_order = render_order
-		self.ai = ai
-		self.item = item
-		self.inventory = inventory
-		self.stairs = stairs
-		self.level = level
-		self.equipment = equipment
-		self.equipable = equipable
+		self.x=x
+		self.y=y
+		self.char=char
+		self.color=color
+		self.name=name
+		self.blocks=blocks
+		self.fighter=fighter
+		self.render_order=render_order
+		self.ai=ai
+		self.item=item
+		self.inventory=inventory
+		self.stairs=stairs
+		self.level=level
+		self.equipment=equipment
+		self.equipable=equipable
 
 		if self.fighter:
-			self.fighter.owner = self
+			self.fighter.owner=self
 		if self.ai:
-			self.ai.owner = self
+			self.ai.owner=self
 		if self.item:
-			self.item.owner = self
+			self.item.owner=self
 		if self.inventory:
-			self.inventory.owner = self
+			self.inventory.owner=self
 		if self.stairs:
-			self.stairs.owner = self
+			self.stairs.owner=self
 		if self.level:
-			self.level.owner = self
+			self.level.owner=self
 		if self.equipment:
-			self.equipment.owner = self
+			self.equipment.owner=self
 		if self.equipable:
-			self.equipable.owner = self
+			self.equipable.owner=self
 			if not self.item:
-				item = Item()
-				self.item = item
-				self.item.owner = self
+				item=Item()
+				self.item=item
+				self.item.owner=self
 
 	def move(self, dx, dy):
 		# Move the entity by a given amount
@@ -48,19 +48,19 @@ class Entity:
 		self.y += dy
 
 	def move_towards(self, target_x, target_y, game_map, entities):
-		dx = target_x - self.x
-		dy = target_y - self.y
-		distance = math.sqrt(dx ** 2 + dy ** 2)
+		dx=target_x - self.x
+		dy=target_y - self.y
+		distance=math.sqrt(dx ** 2 + dy ** 2)
 
-		dx = int(round(dx / distance))
-		dy = int(round(dy / distance))
+		dx=int(round(dx / distance))
+		dy=int(round(dy / distance))
 
 		if not (game_map.is_blocked(self.x + dx, self.y + dy) or
 					get_blocking_entities_at_location(entities, self.x + dx, self.y + dy)):
 			self.move(dx, dy)
 	def move_astar(self, target, entities, game_map):
 		# Create a FOV map that has the dimensions of the map
-		fov = libtcod.map_new(game_map.width, game_map.height)
+		fov=libtcod.map_new(game_map.width, game_map.height)
 
 		# Scan the current map each turn and set all the walls as unwalkable
 		for y1 in range(game_map.height):
@@ -78,7 +78,7 @@ class Entity:
 
 		# Allocate a A* path
 		# The 1.41 is the normal diagonal cost of moving, it can be set as 0.0 if diagonal moves are prohibited
-		my_path = libtcod.path_new_using_map(fov, 1.41)
+		my_path=libtcod.path_new_using_map(fov, 1.41)
 
 		# Compute the path between self's coordinates and the target's coordinates
 		libtcod.path_compute(my_path, self.x, self.y, target.x, target.y)
@@ -88,11 +88,11 @@ class Entity:
 		# It makes sense to keep path size relatively low to keep the monsters from running around the map if there's an alternative path really far away
 		if not libtcod.path_is_empty(my_path) and libtcod.path_size(my_path) < 25:
 			# Find the next coordinates in the computed full path
-			x, y = libtcod.path_walk(my_path, True)
+			x, y=libtcod.path_walk(my_path, True)
 			if x or y:
 				# Set self's coordinates to the next path tile
-				self.x = x
-				self.y = y
+				self.x=x
+				self.y=y
 		else:
 			# Keep the old move function as a backup so that if there are no paths (for example another monster blocks a corridor)
 			# it will still try to move towards the player (closer to the corridor opening)
@@ -104,8 +104,8 @@ class Entity:
 		return math.sqrt((x - self.x) ** 2 + (y - self.y) ** 2)
 
 	def distance_to(self, other):
-		dx = other.x - self.x
-		dy = other.y - self.y
+		dx=other.x - self.x
+		dy=other.y - self.y
 		return math.sqrt(dx ** 2 + dy ** 2)
 
 def get_blocking_entities_at_location(entities, destination_x, destination_y):

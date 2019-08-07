@@ -7,11 +7,12 @@ from loader_functions.initialize_new_game import get_constants, get_game_variabl
 from loader_functions.data_loaders import load_game
 from menus import main_menu, message_box
 
+
 # main process
 def main():
 	constants = get_constants()
 	libtcod.console_set_custom_font('images/simplerl_12x12.png', libtcod.FONT_LAYOUT_ASCII_INROW | libtcod.FONT_TYPE_GREYSCALE)
-	libtcod.console_init_root(constants['screen_width'], constants['screen_height'], constants['window_title'], False, libtcod.RENDERER_SDL2,'F',True)
+	libtcod.console_init_root(constants['screen_width'], constants['screen_height'], constants['window_title'], False, libtcod.RENDERER_SDL2, 'F', True)
 
 	con = libtcod.console.Console(constants['screen_width'], constants['screen_height'])
 	panel = libtcod.console.Console(constants['screen_width'], constants['panel_height'])
@@ -28,10 +29,10 @@ def main():
 	main_menu_background_image = libtcod.image_load('images/menu_background1.png')
 
 	in_handle = InputHandler()
-	#main game loop
+# main game loop
 	while True:
 		if show_main_menu:
-			main_menu(con, main_menu_background_image, constants['screen_width'],constants['screen_height'])
+			main_menu(con, main_menu_background_image, constants['screen_width'], constants['screen_height'])
 
 			if show_load_error_message:
 				message_box(con, 'No save game to load', 50, constants['screen_width'], constants['screen_height'])
@@ -64,10 +65,11 @@ def main():
 				break
 
 		else:
-			con.clear(fg=[63,127,63])
+			con.clear(fg=[63, 127, 63])
 			play_game(player, entities, game_map, message_log, game_state, con, panel, constants)
 
 			show_main_menu = True
+
 
 if __name__ == '__main__':
 	main()

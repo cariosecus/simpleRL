@@ -5,10 +5,10 @@ from game_states import GameStates
 class InputHandler(libtcod.event.EventDispatch):
 
 	def __init__(self):
-		self._actionq = []
-		self.state = GameStates.PLAYERS_TURN
+		self._actionq=[]
+		self.state=GameStates.PLAYERS_TURN
 	def set_game_state(self, state):
-		self.state = state
+		self.state=state
 
 	def ev_quit(self, event):
 		self._actionq.append({"exit": True})
@@ -69,7 +69,7 @@ class InputHandler(libtcod.event.EventDispatch):
 				self._actionq.append({"show_inventory": True})
 
 		elif self.state in (GameStates.SHOW_INVENTORY,GameStates.DROP_INVENTORY,GameStates.TARGETING):
-			inv_index = event.sym - ord("a")
+			inv_index=event.sym - ord("a")
 			if 0 <= inv_index < 26:
 				self._actionq.append({"inventory_index": inv_index})
 
@@ -91,12 +91,12 @@ class InputHandler(libtcod.event.EventDispatch):
 				self._actionq.append({"exit": True})
 
 	def ev_mousemotion(self, event):
-		x, y = event.tile
+		x, y=event.tile
 		self._actionq.append({"mousemotion": (x, y)})
 
 	def ev_mousebuttondown(self, event):
 		if self.state == GameStates.TARGETING:
-			x, y = event.tile
+			x, y=event.tile
 			if event.button == libtcod.event.BUTTON_RIGHT:
 				self._actionq.append({"cancel_target": True})
 			elif event.button == libtcod.event.BUTTON_LEFT:
