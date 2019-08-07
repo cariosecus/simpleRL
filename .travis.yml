@@ -1,0 +1,12 @@
+language: python
+
+python:
+  - "3.7"
+install:
+  - "pip3 install setuptools numpy python-codacy-coverage"
+  - "pip3 install -r requirements.txt"
+
+script:
+  - "python-codacy-coverage"
+  - "prospector"
+  - "python3 engine.py"
