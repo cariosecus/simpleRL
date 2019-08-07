@@ -30,11 +30,11 @@ before_install:
 - python get-pip.py
 - pip install --upgrade setuptools
 - pip install --pre --upgrade wheel
-- pip install pycparser cffi setuptools sdl2-lib pyyaml tcod
+- pip install pycparser cffi setuptools pyyaml tcod
 before_script:
 - pip install --upgrade pytest pytest-cov
 script:
- - pytest
+ - pytest -v
 after_success:
 - if [[ -n "$TRAVIS_TAG" ]]; then pip install --upgrade twine; fi
 - if [[ -n "$TRAVIS_TAG" && -z "$PYPY3_VERSION" ]]; then pip install --upgrade pyOpenSSL; fi

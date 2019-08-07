@@ -24,7 +24,6 @@ def main():
 	game_map = None
 	message_log = None
 	game_state = None
-
 	show_main_menu = True
 	show_load_error_message = False
 
