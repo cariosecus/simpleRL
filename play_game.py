@@ -1,10 +1,9 @@
 import tcod as libtcod
 import tcod.event
-from action_handlers import check_actions, action_turn_results, action_check_player_actions
+from action_handlers import check_actions, action_turn_results, action_check_player_actions, action_enemy_turn
 from render_functions import clear_all, render_all
 from fov_functions import initialize_fov, recompute_fov
 from game_states import GameStates
-from death_functions import kill_npc, kill_player
 from loader_functions.data_loaders import save_game
 
 
@@ -45,7 +44,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 			tcod.console_flush()
 			render_update = False
 
-		fov_map, fov_recompute = action_check_player_actions(game_state, move, player, game_map, entities, player_turn_results, wait, pickup, message_log, take_stairs, fov_map, level_up, previous_game_state, constants, con)
+		game_state, fov_recompute, fov_map = action_check_player_actions(game_state, move, player, game_map, entities, player_turn_results, wait, pickup, message_log, take_stairs, fov_map, level_up, previous_game_state, constants, con, inventory_index, drop_inventory, show_inventory, fov_recompute)
 
 		if show_character_screen:
 			previous_game_state = game_state
@@ -71,33 +70,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
 		if fullscreen:
 			libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
-		action_turn_results(player_turn_results, message_log, player, con, game_map, in_target, entities, game_state, previous_game_state)
 
-		if game_state == GameStates.ENEMY_TURN:
-			for entity in entities:
-				if entity.ai:
-					enemy_turn_results = entity.ai.take_turn(player, fov_map, game_map, entities)
+		game_state, message_log = action_turn_results(player_turn_results, message_log, player, con, game_map, in_target, entities, game_state, previous_game_state)
 
-					for enemy_turn_result in enemy_turn_results:
-						message = enemy_turn_result.get('message')
-						dead_entity = enemy_turn_result.get('dead')
-
-						if message:
-							message_log.add_message(message)
-
-						if dead_entity:
-							if dead_entity == player:
-								message, game_state = kill_player(dead_entity)
-							else:
-								message = kill_npc(dead_entity)
-
-							message_log.add_message(message)
-
-							if game_state == GameStates.PLAYER_DEAD:
-								break
-
-					if game_state == GameStates.PLAYER_DEAD:
-						break
-
-			else:
-				game_state = GameStates.PLAYERS_TURN
+		game_state, message_log = action_enemy_turn(game_state, entities, player, fov_map, game_map, message_log)
