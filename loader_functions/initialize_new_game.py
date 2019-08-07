@@ -14,9 +14,9 @@ from equipment_slots import EquipmentSlots
 def get_constants():
 	WINDOW_TITLE = "SimpleRL"
 	SCREEN_WIDTH = 80
-	SCREEN_HEIGHT = 50
+	SCREEN_HEIGHT = 24
 	MAP_WIDTH = 80
-	MAP_HEIGHT = 43
+	MAP_HEIGHT = 20
 
 	# FOV constants
 	FOV_ALGORITHM = 0
@@ -32,7 +32,7 @@ def get_constants():
 
 	# UI constants
 	BAR_WIDTH = 20
-	PANEL_HEIGHT = 7
+	PANEL_HEIGHT = 4
 	PANEL_Y = SCREEN_HEIGHT-PANEL_HEIGHT
 	MESSAGE_X = BAR_WIDTH + 2
 	MESSAGE_WIDTH = SCREEN_WIDTH-BAR_WIDTH-2
@@ -72,10 +72,10 @@ def get_game_variables(constants):
 	inventory_component = Inventory(26)
 	level_component = Level()
 	equipment_component = Equipment()
-	player = Entity(0, 0, '@', libtcod.white, 'Player', blocks=True, render_order=RenderOrder.ACTOR,fighter=fighter_component, inventory=inventory_component, level=level_component,equipment=equipment_component)
+	player = Entity(0, 0, 208, libtcod.lightest_gray, 'Player', blocks=True, render_order=RenderOrder.ACTOR,fighter=fighter_component, inventory=inventory_component, level=level_component,equipment=equipment_component)
 	entities = [player]
 
-	equipable_component = Equipable(EquipmentSlots.MAIN_HAND, power_bonus=2)
+	equipable_component = Equipable(EquipmentSlots.MAIN_HAND, power_bonus=0.75)
 	dagger = Entity(0, 0, '-', libtcod.sky, 'Dagger', equipable=equipable_component)
 	player.inventory.add_item(dagger)
 	player.equipment.toggle_equip(dagger)

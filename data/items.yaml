@@ -1,5 +1,5 @@
 'Healing Potion':
-  'char': '!'
+  'char': 221
   'name': 'Healing Potion'
   'rarity': 'common'
   'color_r': 191
@@ -15,7 +15,7 @@
   'maximum_range': 0
 
 'Fireball Scroll':
-  'char': '#'
+  'char': 238
   'name': 'Fireball Scroll'
   'rarity': 'common'
   'color_r': 255
@@ -31,7 +31,7 @@
   'maximum_range': 0
 
 'Confusion Scroll':
-  'char': '#'
+  'char': 238
   'name': 'Confusion Scroll'
   'rarity': 'very uncommon'
   'color_r': 255
@@ -47,7 +47,7 @@
   'maximum_range': 0
 
 'Lightning Scroll':
-  'char': '#'
+  'char': 238
   'name': 'Lightning Scroll'
   'rarity': 'uncommon'
   'color_r': 255

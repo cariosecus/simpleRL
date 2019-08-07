@@ -1,5 +1,5 @@
 'orc':
-  'char': 'o'
+  'char': 233
   'color_r': 63
   'color_g': 127
   'color_b': 63
@@ -13,7 +13,7 @@
   'power': 4
   'xp': 35
 'troll':
-  'char': 'T'
+  'char': 223
   'color_r': 95
   'color_g': 95
   'color_b': 95

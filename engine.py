@@ -10,7 +10,7 @@ from menus import main_menu, message_box
 # main process
 def main():
 	constants = get_constants()
-	libtcod.console_set_custom_font('images/monaco_10x10.png', libtcod.FONT_LAYOUT_ASCII_INROW | libtcod.FONT_TYPE_GREYSCALE)
+	libtcod.console_set_custom_font('images/simplerl_12x12.png', libtcod.FONT_LAYOUT_ASCII_INROW | libtcod.FONT_TYPE_GREYSCALE)
 	libtcod.console_init_root(constants['screen_width'], constants['screen_height'], constants['window_title'], False, libtcod.RENDERER_SDL2,'F',True)
 
 	con = libtcod.console.Console(constants['screen_width'], constants['screen_height'])

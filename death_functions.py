@@ -4,8 +4,8 @@ from game_states import GameStates
 from game_messages import Message
 
 def kill_player(player):
-	player.char = '%'
-	player.color = libtcod.dark_red
+	player.char = 224
+	player.color = libtcod.lightest_grey
 
 	return Message('You died!', libtcod.red), GameStates.PLAYER_DEAD
 
@@ -13,7 +13,7 @@ def kill_player(player):
 def kill_npc(npc):
 	death_message = Message('{0} is dead!'.format(npc.name.capitalize()), libtcod.orange)
 
-	npc.char = '%'
+	npc.char = 225
 	npc.color = libtcod.dark_red
 	npc.blocks = False
 	npc.fighter = None
