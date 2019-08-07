@@ -6,6 +6,6 @@ install:
   - "pip3 install -r requirements.txt"
 
 script:
-  - "python-codacy-coverage"
+  - "codacy-coverage"
   - "prospector"
   - "python3 engine.py"
