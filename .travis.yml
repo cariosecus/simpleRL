@@ -1,4 +1,7 @@
 language: python
+sudo: required
+dist: trusty
+cache: pip
 install:
   - apt-get install g++-8 libsdl2-dev
   - pip3 install setuptools numpy cffi
