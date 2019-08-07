@@ -1,21 +1,7 @@
 language: python
 
-sudo: required
-dist: trusty
-cache: pip
-
-addons:
-  apt:
-    sources:
-      - ubuntu-toolchain-r-test
-    packages:
-      - g++-8
-      - libsdl2-dev
-services:
-  - xvfb
-
 install:
-  - "sudo apt-get install python3"
+  - "apt-get install g++-8 libsdl2-dev3"
   - "pip3 install setuptools numpy sdl2-config cffi
   - "pip3 install -r requirements.txt"
 
@@ -23,8 +9,7 @@ script:
   - "python3 engine.py"
 
 after_success:
--
-- pip install codacy-coverage
+  - pip install codacy-coverage
 
-- coverage xml
-- if [[ -n "$CODACY_PROJECT_TOKEN" ]]; then python-codacy-coverage -r coverage.xml || true; fi
+  - coverage xml
+  - if [[ -n "$CODACY_PROJECT_TOKEN" ]]; then python-codacy-coverage -r coverage.xml || true; fi
