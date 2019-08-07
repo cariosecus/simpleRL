@@ -11,10 +11,3 @@ class GameStates(Enum):
 	LEVEL_UP = 7
 	CHARACTER_SCREEN = 8
 	MAIN_MENU = 9
-
-
-def set_game_state(current, new=GameStates.PLAYERS_TURN):
-	previous_game_state = current
-	current = new
-
-	return previous_game_state
