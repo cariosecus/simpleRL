@@ -1,7 +1,7 @@
-'sword':
+'Sword':
   'char': '/'
   'name': 'Sword'
-  'rarity': 'uncommon'
+  'rarity': 'very uncommon'
   'color_r': 0
   'color_g': 191
   'color_b': 255
@@ -11,9 +11,35 @@
   'defense_bonus': 0
   'max_hp_bonus': 0
 
-'shield':
+'Short Sword':
+  'char': '\'
+  'name': 'Short Sword'
+  'rarity': 'very uncommon'
+  'color_r': 0
+  'color_g': 120
+  'color_b': 164
+  'equipable_component': 'equipable_component'
+  'equipable_slots': 'EquipmentSlots.MAIN_HAND'
+  'power_bonus': 2
+  'defense_bonus': 0
+  'max_hp_bonus': 0
+
+'Spear':
+  'char': 144
+  'name': 'Spear'
+  'rarity': 'uncommon'
+  'color_r': 127
+  'color_g': 63
+  'color_b': 0
+  'equipable_component': 'equipable_component'
+  'equipable_slots': 'EquipmentSlots.MAIN_HAND'
+  'power_bonus': 1
+  'defense_bonus': 0
+  'max_hp_bonus': 0
+
+'Buckler':
   'char': '['
-  'name': 'Shield'
+  'name': 'Buckler'
   'rarity': 'uncommon'
   'color_r': 127
   'color_g': 63
@@ -22,4 +48,43 @@
   'equipable_slots': 'EquipmentSlots.OFF_HAND'
   'power_bonus': 0
   'defense_bonus': 1
+  'max_hp_bonus': 0
+
+'Large Buckler':
+  'char': '['
+  'name': 'Large Buckler'
+  'rarity': 'very uncommon'
+  'color_r': 92
+  'color_g': 48
+  'color_b': 3
+  'equipable_component': 'equipable_component'
+  'equipable_slots': 'EquipmentSlots.OFF_HAND'
+  'power_bonus': 0
+  'defense_bonus': 2
+  'max_hp_bonus': 0
+
+'Iron Shield':
+  'char': '['
+  'name': 'Iron Shield'
+  'rarity': 'rare'
+  'color_r': 78
+  'color_g': 66
+  'color_b': 66
+  'equipable_component': 'equipable_component'
+  'equipable_slots': 'EquipmentSlots.OFF_HAND'
+  'power_bonus': 0
+  'defense_bonus': 3
+  'max_hp_bonus': 0
+
+'Steel Shield':
+  'char': '['
+  'name': 'Steel Shield'
+  'rarity': 'very rare'
+  'color_r': 103
+  'color_g': 103
+  'color_b': 103
+  'equipable_component': 'equipable_component'
+  'equipable_slots': 'EquipmentSlots.OFF_HAND'
+  'power_bonus': 0
+  'defense_bonus': 4
   'max_hp_bonus': 0
