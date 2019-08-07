@@ -5,6 +5,8 @@ from game_states import GameStates
 from game_messages import Message
 from render_functions import get_console_offset, get_map_offset
 from death_functions import kill_player, kill_npc
+from entity import get_blocking_entities_at_location
+from fov_functions import initialize_fov
 
 
 def check_actions(game_state):
@@ -73,6 +75,58 @@ def action_turn_results(player_turn_results, message_log, player, con, game_map,
 			message_log.add_message(message)
 
 		action_check_items(item_added, item_consumed, item_dropped, in_target, game_state, previous_game_state, equip, targeting, targeting_cancelled, message_log, player, con, game_map, entities)
+
+
+def action_check_player_actions(game_state, move, player, game_map, entities, player_turn_results, wait, pickup, message_log, take_stairs, fov_map, level_up, previous_game_state, constants, con):
+	if move and game_state == GameStates.PLAYERS_TURN:
+		dx, dy = move
+		destination_x = player.x + dx
+		destination_y = player.y + dy
+		if not game_map.is_blocked(destination_x, destination_y):
+			target = get_blocking_entities_at_location(entities, destination_x, destination_y)
+			if target:
+				attack_results = player.fighter.attack(target)
+				player_turn_results.extend(attack_results)
+			else:
+				player.move(dx, dy)
+				fov_recompute = True
+		game_state = GameStates.ENEMY_TURN
+
+	elif wait:
+		message_log.add_message(Message('You wait.', libtcod.yellow))
+		game_state = GameStates.ENEMY_TURN
+
+	elif pickup and game_state == GameStates.PLAYERS_TURN:
+		for entity in entities:
+			if entity.item and entity.x == player.x and entity.y == player.y:
+				pickup_results = player.inventory.add_item(entity)
+				player_turn_results.extend(pickup_results)
+				break
+		else:
+			message_log.add_message(Message('There is nothing here to pick up.', libtcod.yellow))
+
+	if take_stairs and game_state == GameStates.PLAYERS_TURN:
+		for entity in entities:
+			if entity.stairs and entity.x == player.x and entity.y == player.y:
+				entities = game_map.next_floor(player, message_log, constants)
+				fov_map = initialize_fov(game_map)
+				fov_recompute = True
+				libtcod.console_clear(con)
+				break
+		else:
+			message_log.add_message(Message('There are no stairs here.', libtcod.yellow))
+
+	if level_up:
+		if level_up == 'hp':
+			player.fighter.base_max_hp += 20
+			player.fighter.hp += 20
+		elif level_up == 'str':
+			player.fighter.base_power += 1
+		elif level_up == 'def':
+			player.fighter.base_defense += 1
+
+		game_state = previous_game_state
+		return fov_map, fov_recompute
 
 
 def action_check_items(item_added, item_consumed, item_dropped, in_target, game_state, previous_game_state, equip, targeting, targeting_cancelled, message_log, player, con, game_map, entities):

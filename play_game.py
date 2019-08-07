@@ -1,12 +1,10 @@
 import tcod as libtcod
 import tcod.event
-from action_handlers import check_actions, action_turn_results
-from entity import get_blocking_entities_at_location
+from action_handlers import check_actions, action_turn_results, action_check_player_actions
 from render_functions import clear_all, render_all
 from fov_functions import initialize_fov, recompute_fov
 from game_states import GameStates
 from death_functions import kill_npc, kill_player
-from game_messages import Message
 from loader_functions.data_loaders import save_game
 
 
@@ -47,72 +45,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 			tcod.console_flush()
 			render_update = False
 
-		if move and game_state == GameStates.PLAYERS_TURN:
-			dx, dy = move
-			destination_x = player.x + dx
-			destination_y = player.y + dy
-			if not game_map.is_blocked(destination_x, destination_y):
-				target = get_blocking_entities_at_location(entities, destination_x, destination_y)
-
-				if target:
-					attack_results = player.fighter.attack(target)
-					player_turn_results.extend(attack_results)
-				else:
-					player.move(dx, dy)
-
-					fov_recompute = True
-			game_state = GameStates.ENEMY_TURN
-		elif wait:
-			message_log.add_message(Message('You wait.', libtcod.yellow))
-			game_state = GameStates.ENEMY_TURN
-
-		elif pickup and game_state == GameStates.PLAYERS_TURN:
-			for entity in entities:
-				if entity.item and entity.x == player.x and entity.y == player.y:
-					pickup_results = player.inventory.add_item(entity)
-					player_turn_results.extend(pickup_results)
-
-					break
-			else:
-				message_log.add_message(Message('There is nothing here to pick up.', libtcod.yellow))
-
-		if show_inventory:
-			previous_game_state = game_state
-			game_state = GameStates.SHOW_INVENTORY
-
-		if drop_inventory:
-			previous_game_state = game_state
-			game_state = GameStates.DROP_INVENTORY
-
-		if inventory_index is not None and previous_game_state != GameStates.PLAYER_DEAD and inventory_index < len(player.inventory.items):
-			item = player.inventory.items[inventory_index]
-			if game_state == GameStates.SHOW_INVENTORY:
-				player_turn_results.extend(player.inventory.use(item, entities=entities, fov_map=fov_map))
-			elif game_state == GameStates.DROP_INVENTORY:
-				player_turn_results.extend(player.inventory.drop_item(item))
-
-		if take_stairs and game_state == GameStates.PLAYERS_TURN:
-			for entity in entities:
-				if entity.stairs and entity.x == player.x and entity.y == player.y:
-					entities = game_map.next_floor(player, message_log, constants)
-					fov_map = initialize_fov(game_map)
-					fov_recompute = True
-					libtcod.console_clear(con)
-
-					break
-			else:
-				message_log.add_message(Message('There are no stairs here.', libtcod.yellow))
-
-		if level_up:
-			if level_up == 'hp':
-				player.fighter.base_max_hp += 20
-				player.fighter.hp += 20
-			elif level_up == 'str':
-				player.fighter.base_power += 1
-			elif level_up == 'def':
-				player.fighter.base_defense += 1
-
-			game_state = previous_game_state
+		fov_map, fov_recompute = action_check_player_actions(game_state, move, player, game_map, entities, player_turn_results, wait, pickup, message_log, take_stairs, fov_map, level_up, previous_game_state, constants, con)
 
 		if show_character_screen:
 			previous_game_state = game_state
