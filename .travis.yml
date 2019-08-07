@@ -1,8 +1,7 @@
 language: python
 
-python:
-  - "3.7"
 install:
+  - "sudo apt-get install python3"
   - "pip3 install setuptools numpy python-codacy-coverage"
   - "pip3 install -r requirements.txt"
 
