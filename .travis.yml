@@ -33,8 +33,6 @@ before_install:
 - pip install pycparser cffi setuptools pyyaml tcod
 before_script:
 - pip install --upgrade pytest pytest-cov
-script:
- - pytest -v
 after_success:
 - if [[ -n "$TRAVIS_TAG" ]]; then pip install --upgrade twine; fi
 - if [[ -n "$TRAVIS_TAG" && -z "$PYPY3_VERSION" ]]; then pip install --upgrade pyOpenSSL; fi
