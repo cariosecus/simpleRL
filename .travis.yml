@@ -9,7 +9,7 @@ script:
   - "python3 engine.py"
 
 after_success:
-  - pip install codacy-coverage
+  - "pip install codacy-coverage"
 
-  - coverage xml
-  - if [[ -n "$CODACY_PROJECT_TOKEN" ]]; then python-codacy-coverage -r coverage.xml || true; fi
+  - "coverage xml"
+  - "python-codacy-coverage -r coverage.xml"
