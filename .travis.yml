@@ -1,14 +1,11 @@
 language: python
-
 install:
-  - "apt-get install g++-8 libsdl2-dev"
-  - "pip3 install setuptools numpy cffi
-  - "pip3 install -r requirements.txt"
-
+  - apt-get install g++-8 libsdl2-dev
+  - pip3 install setuptools numpy cffi
+  - pip3 install -r requirements.txt
 script:
-  - "python3 engine.py"
-
+  - python3 engine.py
 after_success:
-  - "pip install codacy-coverage"
-  - "coverage xml"
-  - "python-codacy-coverage -r coverage.xml"
+  - pip install codacy-coverage
+  - coverage xml"
+  - python-codacy-coverage -r coverage.xml
