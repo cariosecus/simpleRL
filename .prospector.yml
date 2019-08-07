@@ -1,4 +1,0 @@
-strictness: medium
-pep8:
-  disable:
-    - W191

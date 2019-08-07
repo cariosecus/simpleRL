@@ -24,8 +24,7 @@ script:
 
 after_success:
 -
-- pip install codacy-coverage prospector
+- pip install codacy-coverage
 
 - coverage xml
-prospector
 - if [[ -n "$CODACY_PROJECT_TOKEN" ]]; then python-codacy-coverage -r coverage.xml || true; fi
