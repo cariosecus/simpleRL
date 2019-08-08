@@ -119,7 +119,7 @@ def action_check_player_actions(game_state, move, player, game_map, entities, pl
 			player.fighter.base_defense += 1
 
 		game_state = previous_game_state
-	return game_state, fov_recompute, fov_map
+	return game_state, fov_recompute, fov_map, con, entities
 
 
 def action_check_inventory(pickup, drop_inventory, game_state, entities, player, player_turn_results, message_log, show_inventory, fov_map, inventory_index, previous_game_state):

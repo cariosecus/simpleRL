@@ -10,10 +10,7 @@ from render_functions import RenderOrder
 from loader_functions.data_loaders import load_rand_entity
 
 
-def place_specific_entity(room, entities, otype):
-	x = randint(room.x1 + 1, room.x2 - 1)
-	y = randint(room.y1 + 1, room.y2 - 1)
-
+def place_specific_entity(x, y, entities, otype):
 	item = load_rand_entity(random_choice_from_dict(otype), otype, x, y)
 	return(item)
 
@@ -30,7 +27,7 @@ class GameMap:
 		return tiles
 
 	def make_map(self, max_rooms, room_min_size, room_max_size, map_width, map_height, player, entities):
-		# Create two rooms for demonstration purposes
+
 		rooms = []
 		num_rooms = 0
 
@@ -83,7 +80,7 @@ class GameMap:
 						# first move vertically, then horizontally
 						self.create_v_tunnel(prev_y, new_y, prev_x)
 						self.create_h_tunnel(prev_x, new_x, new_y)
-					self.place_entities(new_room, entities)
+				self.place_entities(new_room, entities)
 				# finally, append the new room to the list
 				rooms.append(new_room)
 				num_rooms += 1
@@ -111,19 +108,25 @@ class GameMap:
 			self.tiles[x][y].block_sight = False
 
 	def place_entities(self, room, entities):
-		max_monsters_per_room = max(3, min(self.dungeon_level+1, 10))
+		max_monsters_per_room = min(self.dungeon_level, 5)
 		max_items_per_room = min(self.dungeon_level, 3)
 
-		number_of_monsters = randint(max_monsters_per_room-1, max_monsters_per_room)
+		number_of_monsters = randint(0, max_monsters_per_room)
 		number_of_items = randint(0, max_items_per_room)
 
 		for _ in range(number_of_monsters):
-			mob = place_specific_entity(room, entities, 'mobs')
-			entities.append(mob)
+			x = randint(room.x1 + 1, room.x2 - 1)
+			y = randint(room.y1 + 1, room.y2 - 1)
+			if not any([entity for entity in entities if entity.x == x and entity.y == y]):
+				mob = place_specific_entity(x, y, entities, 'mobs')
+				entities.append(mob)
 
 		for _ in range(number_of_items):
-			item = place_specific_entity(room, entities, 'objects')
-			entities.append(item)
+			x = randint(room.x1 + 1, room.x2 - 1)
+			y = randint(room.y1 + 1, room.y2 - 1)
+			if not any([entity for entity in entities if entity.x == x and entity.y == y]):
+				item = place_specific_entity(x, y, entities, 'objects')
+				entities.append(item)
 
 	def is_blocked(self, x, y):
 		if self.tiles[x][y].blocked:

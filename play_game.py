@@ -44,7 +44,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 			tcod.console_flush()
 			render_update = False
 
-		game_state, fov_recompute, fov_map = action_check_player_actions(game_state, move, player, game_map, entities, player_turn_results, wait, message_log, take_stairs, level_up, previous_game_state, constants, con, fov_recompute, fov_map)
+		game_state, fov_recompute, fov_map, con, entities = action_check_player_actions(game_state, move, player, game_map, entities, player_turn_results, wait, message_log, take_stairs, level_up, previous_game_state, constants, con, fov_recompute, fov_map)
 		player_turn_results, previous_game_state, game_state = action_check_inventory(pickup, drop_inventory, game_state, entities, player, player_turn_results, message_log, show_inventory, fov_map, inventory_index, previous_game_state)
 		if show_character_screen:
 			previous_game_state = game_state
