@@ -1,7 +1,7 @@
 import tcod as libtcod
 from random import randint
 from entity import Entity
-from random_utils import from_dungeon_level, random_choice_from_dict
+from random_utils import random_choice_from_dict
 from map_objects.tile import Tile
 from map_objects.rectangle import Rect
 from game_messages import Message
@@ -10,13 +10,12 @@ from render_functions import RenderOrder
 from loader_functions.data_loaders import load_rand_entity
 
 
-def place_specific_entity(room, entities, otype, osubtype):
+def place_specific_entity(room, entities, otype):
 	x = randint(room.x1 + 1, room.x2 - 1)
 	y = randint(room.y1 + 1, room.y2 - 1)
 
-	if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-		item = load_rand_entity(random_choice_from_dict(otype), osubtype, x, y)
-		return(item)
+	item = load_rand_entity(random_choice_from_dict(otype), otype, x, y)
+	return(item)
 
 
 class GameMap:
@@ -112,18 +111,18 @@ class GameMap:
 			self.tiles[x][y].block_sight = False
 
 	def place_entities(self, room, entities):
-		max_monsters_per_room = from_dungeon_level([[2, 1], [3, 4], [5, 6]], self.dungeon_level)
-		max_items_per_room = from_dungeon_level([[1, 1], [2, 4]], self.dungeon_level)
+		max_monsters_per_room = max(self.dungeon_level+1, 10)
+		max_items_per_room = min(self.dungeon_level, 3)
 
-		number_of_monsters = randint(0, max_monsters_per_room)
+		number_of_monsters = randint(1, max_monsters_per_room)
 		number_of_items = randint(0, max_items_per_room)
 
 		for _ in range(number_of_monsters):
-			mob = place_specific_entity(room, entities, 'mobs', 'npc')
+			mob = place_specific_entity(room, entities, 'mobs')
 			entities.append(mob)
 
 		for _ in range(number_of_items):
-			item = place_specific_entity(room, entities, 'objects', 'object')
+			item = place_specific_entity(room, entities, 'objects')
 			entities.append(item)
 
 	def is_blocked(self, x, y):

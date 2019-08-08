@@ -50,16 +50,15 @@ def dumpyaml(file=None, data=None):
 			yaml.dump(file, file_descriptor)
 
 
-loadednpcs = loadyaml('data/npcs.yaml')
+loadedmobs = loadyaml('data/npcs.yaml')
 loadeditems = loadyaml('data/items.yaml')
 loadedequipment = loadyaml('data/equipment.yaml')
 loadedchances = loadyaml('data/spawn_chances.yaml')
 
 
-def load_entity(listed, etype='npc', subtype=None, x=0, y=0):
-	if etype == 'npc':
-		rand_item = random.choice(listed)
-		result = loadednpcs[rand_item]
+def load_entity(listed, subtype, x=0, y=0):
+	result = random.choice(listed)
+	if subtype == 'mobs':
 		fighter_component = None
 		ai_component = None
 		if result['fighter_component']:
@@ -67,57 +66,40 @@ def load_entity(listed, etype='npc', subtype=None, x=0, y=0):
 		if result['ai_component']:
 			ai_component = BasicEnemy()
 		return Entity(x, y, result['char'], libtcod.Color(result['color_r'], result['color_g'], result['color_b']), result['name'], blocks=result['blocks'], render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
-	elif etype == 'object':
-		if subtype == 'item':
-			rand_item = random.choice(listed)
-			result = loadeditems[rand_item]
-			return Entity(x, y, result['char'], libtcod.Color(result['color_r'], result['color_g'], result['color_b']), result['name'], render_order=RenderOrder.ITEM, item=get_function_by_name(result['item_use_function'], result['targeting_message'], result['item_amount'], result['damage_radius'], result['damage'], result['maximum_range']))
-		elif subtype == 'equipment':
-			rand_item = random.choice(listed)
-			result = loadedequipment[rand_item]
-			if result['equipable_component']:
-				eqslot = EquipmentSlots.MAIN_HAND
-				if result['equipable_slots'] == 'EquipmentSlots.OFF_HAND':
-					eqslot = EquipmentSlots.OFF_HAND
-				elif result['equipable_slots'] == 'EquipmentSlots.OFF_HEAD':
-					eqslot = EquipmentSlots.OFF_HEAD
-				elif result['equipable_slots'] == 'EquipmentSlots.OFF_TORSO':
-					eqslot = EquipmentSlots.OFF_TORSO
-				elif result['equipable_slots'] == 'EquipmentSlots.OFF_LEGS':
-					eqslot = EquipmentSlots.OFF_LEGS
-				equipable_component = Equipable(eqslot, power_bonus=result['power_bonus'], defense_bonus=result['defense_bonus'], max_hp_bonus=result['max_hp_bonus'])
-				return Entity(x, y, result['char'], libtcod.Color(result['color_r'], result['color_g'], result['color_b']), result['name'], render_order=RenderOrder.ITEM, equipable=equipable_component)
+	elif subtype == 'items':
+		return Entity(x, y, result['char'], libtcod.Color(result['color_r'], result['color_g'], result['color_b']), result['name'], render_order=RenderOrder.ITEM, item=get_function_by_name(result['item_use_function'], result['targeting_message'], result['item_amount'], result['damage_radius'], result['damage'], result['maximum_range']))
+	elif subtype == 'equipment':
+		if result['equipable_component']:
+			eqslot = EquipmentSlots.MAIN_HAND
+			if result['equipable_slots'] == 'EquipmentSlots.OFF_HAND':
+				eqslot = EquipmentSlots.OFF_HAND
+			elif result['equipable_slots'] == 'EquipmentSlots.OFF_HEAD':
+				eqslot = EquipmentSlots.OFF_HEAD
+			elif result['equipable_slots'] == 'EquipmentSlots.OFF_TORSO':
+				eqslot = EquipmentSlots.OFF_TORSO
+			elif result['equipable_slots'] == 'EquipmentSlots.OFF_LEGS':
+				eqslot = EquipmentSlots.OFF_LEGS
+			equipable_component = Equipable(eqslot, power_bonus=result['power_bonus'], defense_bonus=result['defense_bonus'], max_hp_bonus=result['max_hp_bonus'])
+			return Entity(x, y, result['char'], libtcod.Color(result['color_r'], result['color_g'], result['color_b']), result['name'], render_order=RenderOrder.ITEM, equipable=equipable_component)
 
 
-def load_rand_entity(rarity='common', etype='npc', x=0, y=0):
+def load_rand_entity(rarity='common', etype='mobs', x=0, y=0):
 	listed = []
-	subtype = None
-	if etype == 'npc':
-		for v in loadednpcs:
-			if loadednpcs[v]['rarity'] == rarity:
-				listed.append(loadednpcs[v]['name'])
-		if not listed:
-			for v in loadednpcs:
-				if loadednpcs[v]['rarity'] == 'common':
-					listed.append(loadednpcs[v]['name'])
-	elif etype == 'object':
-		subtype = 'item'
-		if randint(1, 10) <= 9 or rarity == 'common':
-			subtype = 'item'
-			for v in loadeditems:
-				if loadeditems[v]['rarity'] == rarity:
-					listed.append(loadeditems[v]['name'])
-			if not listed:
-				for v in loadeditems:
-					if loadeditems[v]['rarity'] == 'common':
-						listed.append(loadeditems[v]['name'])
+	if etype == 'mobs':
+		subtype = 'mobs'
+		loaded = loadedmobs
+	elif etype == 'objects':
+		if randint(1, 10) <= 9:
+			subtype = 'items'
+			loaded = loadeditems
 		else:
 			subtype = 'equipment'
-			for v in loadedequipment:
-				if loadedequipment[v]['rarity'] == rarity:
-					listed.append(loadedequipment[v]['name'])
-			if not listed:
-				for v in loadedequipment:
-					if loadedequipment[v]['rarity'] == 'common':
-						listed.append(loadedequipment[v]['name'])
-	return load_entity(listed, etype, subtype, x, y)
+			loaded = loadedequipment
+	for v in loaded:
+		if loaded[v]['rarity'] == rarity:
+			listed.append(loaded[v])
+	if not listed:
+		for v in loaded:
+			if loaded[v]['rarity'] == 'common':
+				listed.append(loaded[v])
+	return load_entity(listed, subtype, x, y)
