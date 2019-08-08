@@ -1,16 +1,16 @@
 'orc':
-  'char': 233
-  'color_r': 63
-  'color_g': 127
-  'color_b': 63
+  'char': 242
+  'color_r': 92
+  'color_g': 85
+  'color_b': 64
   'name': 'orc'
-  'rarity': 'common'
+  'rarity': 'uncommon'
   'blocks': True
   'fighter_component': 'fighter_component'
   'ai_component': 'ai_component'
-  'hp': 20
+  'hp': 30
   'defense': 0
-  'power': 4
+  'power': 3
   'xp': 35
 'troll':
   'char': 223
@@ -22,7 +22,49 @@
   'blocks': True
   'fighter_component': 'fighter_component'
   'ai_component': 'ai_component'
-  'hp': 30
+  'hp': 40
   'defense': 2
-  'power': 8
+  'power': 4.5
   'xp': 100
+'armored orc':
+  'char': 243
+  'color_r': 55
+  'color_g': 51
+  'color_b': 40
+  'name': 'armored orc'
+  'rarity': 'very uncommon'
+  'blocks': True
+  'fighter_component': 'fighter_component'
+  'ai_component': 'ai_component'
+  'hp': 30
+  'defense': 3
+  'power': 4
+  'xp': 60
+'goblin':
+  'char': 233
+  'color_r': 63
+  'color_g': 127
+  'color_b': 63
+  'name': 'goblin'
+  'rarity': 'common'
+  'blocks': True
+  'fighter_component': 'fighter_component'
+  'ai_component': 'ai_component'
+  'hp': 20
+  'defense': 0
+  'power': 2
+  'xp': 30
+'armored goblin':
+  'char': 232
+  'color_r': 62
+  'color_g': 101
+  'color_b': 62
+  'name': 'armored goblin'
+  'rarity': 'uncommon'
+  'blocks': True
+  'fighter_component': 'fighter_component'
+  'ai_component': 'ai_component'
+  'hp': 20
+  'defense': 2
+  'power': 3
+  'xp': 45

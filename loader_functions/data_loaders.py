@@ -89,7 +89,7 @@ def load_rand_entity(rarity='common', etype='mobs', x=0, y=0):
 		subtype = 'mobs'
 		loaded = loadedmobs
 	elif etype == 'objects':
-		if randint(1, 10) <= 9:
+		if randint(1, 10) <= 8:
 			subtype = 'items'
 			loaded = loadeditems
 		else:
