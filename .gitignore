@@ -20,6 +20,7 @@ parts/
 sdist/
 var/
 wheels/
+tcod/
 pip-wheel-metadata/
 share/python-wheels/
 *.egg-info/
@@ -128,3 +129,6 @@ savegame.dat.dir
 .dir
 .dat
 .bak
+# dlls
+libtcod.dll
+SDL2.dll
