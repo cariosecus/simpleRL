@@ -14,54 +14,33 @@ from loader_functions.data_loaders import loadyaml
 
 
 def get_constants():
-	WINDOW_TITLE = "SimpleRL"
-	SCREEN_WIDTH = 80
-	SCREEN_HEIGHT = 24
-	MAP_WIDTH = 80
-	MAP_HEIGHT = 20
-
-	# FOV constants
-	FOV_ALGORITHM = 0
-	FOV_LIGHT_WALLS = True
-	FOV_RADIUS = 10
-
-	# room constants
-	MAX_MONSTERS_PER_ROOM = 3
-	MAX_ITEMS_PER_ROOM = 2
-	MAX_ROOMS = 30
-	ROOM_MAX_SIZE = 10
-	ROOM_MIN_SIZE = 6
-
-	# UI constants
-	BAR_WIDTH = 20
-	PANEL_HEIGHT = 4
-	PANEL_Y = SCREEN_HEIGHT-PANEL_HEIGHT
-	MESSAGE_X = BAR_WIDTH + 2
-	MESSAGE_WIDTH = SCREEN_WIDTH-BAR_WIDTH-2
-	MESSAGE_HEIGHT = PANEL_HEIGHT-1
-
+	loadedvars = loadyaml('data/variables.yaml')
+	PANEL_Y = loadedvars['SCREEN_HEIGHT']-loadedvars['PANEL_HEIGHT']
+	MESSAGE_X = loadedvars['BAR_WIDTH']+2
+	MESSAGE_WIDTH = loadedvars['SCREEN_WIDTH']-loadedvars['BAR_WIDTH']-2
+	MESSAGE_HEIGHT = loadedvars['PANEL_HEIGHT']-1
 	colors = loadyaml('data/turfs.yaml')
 
 	constants = {
-		'window_title': WINDOW_TITLE,
-		'screen_width': SCREEN_WIDTH,
-		'screen_height': SCREEN_HEIGHT,
-		'bar_width': BAR_WIDTH,
-		'panel_height': PANEL_HEIGHT,
+		'window_title': loadedvars['WINDOW_TITLE'],
+		'screen_width': loadedvars['SCREEN_WIDTH'],
+		'screen_height': loadedvars['SCREEN_HEIGHT'],
+		'bar_width': loadedvars['BAR_WIDTH'],
+		'panel_height': loadedvars['PANEL_HEIGHT'],
 		'panel_y': PANEL_Y,
 		'message_x': MESSAGE_X,
 		'message_width': MESSAGE_WIDTH,
 		'message_height': MESSAGE_HEIGHT,
-		'map_width': MAP_WIDTH,
-		'map_height': MAP_HEIGHT,
-		'room_max_size': ROOM_MAX_SIZE,
-		'room_min_size': ROOM_MIN_SIZE,
-		'max_rooms': MAX_ROOMS,
-		'fov_algorithm': FOV_ALGORITHM,
-		'fov_light_walls': FOV_LIGHT_WALLS,
-		'fov_radius': FOV_RADIUS,
-		'max_monsters_per_room': MAX_MONSTERS_PER_ROOM,
-		'max_items_per_room': MAX_ITEMS_PER_ROOM,
+		'map_width': loadedvars['MAP_WIDTH'],
+		'map_height': loadedvars['MAP_HEIGHT'],
+		'room_max_size': loadedvars['ROOM_MAX_SIZE'],
+		'room_min_size': loadedvars['ROOM_MIN_SIZE'],
+		'max_rooms': loadedvars['MAX_ROOMS'],
+		'fov_algorithm': loadedvars['FOV_ALGORITHM'],
+		'fov_light_walls': loadedvars['FOV_LIGHT_WALLS'],
+		'fov_radius': loadedvars['FOV_RADIUS'],
+		'max_monsters_per_room': loadedvars['MAX_MONSTERS_PER_ROOM'],
+		'max_items_per_room': loadedvars['MAX_ITEMS_PER_ROOM'],
 		'colors': colors
 	}
 	return constants
