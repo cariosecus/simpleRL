@@ -1,0 +1,16 @@
+'light_wall':
+  color_r: 60
+  color_g: 60
+  color_b: 60
+'light_ground':
+  color_r: 30
+  color_g: 40
+  color_b: 46
+'dark_wall':
+  color_r: 33
+  color_g: 29
+  color_b: 24
+'dark_ground':
+  color_r: 23
+  color_g: 23
+  color_b: 23

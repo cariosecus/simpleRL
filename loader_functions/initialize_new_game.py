@@ -10,6 +10,7 @@ from map_objects.game_map import GameMap
 from render_functions import RenderOrder
 from components.level import Level
 from equipment_slots import EquipmentSlots
+from loader_functions.data_loaders import loadyaml
 
 
 def get_constants():
@@ -38,12 +39,9 @@ def get_constants():
 	MESSAGE_X = BAR_WIDTH + 2
 	MESSAGE_WIDTH = SCREEN_WIDTH-BAR_WIDTH-2
 	MESSAGE_HEIGHT = PANEL_HEIGHT-1
-	colors = {
-		'dark_wall': libtcod.Color(0, 0, 100),
-		'dark_ground': libtcod.Color(50, 50, 150),
-		'light_wall': libtcod.Color(130, 110, 50),
-		'light_ground': libtcod.Color(200, 180, 50)
-	}
+
+	colors = loadyaml('data/turfs.yaml')
+
 	constants = {
 		'window_title': WINDOW_TITLE,
 		'screen_width': SCREEN_WIDTH,
