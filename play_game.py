@@ -1,6 +1,6 @@
 import tcod as libtcod
 import tcod.event
-from action_handlers import check_actions, action_turn_results, action_check_player_actions, action_enemy_turn
+from action_handlers import check_actions, action_turn_results, action_check_player_actions, action_enemy_turn, action_check_inventory
 from render_functions import clear_all, render_all
 from fov_functions import initialize_fov, recompute_fov
 from game_states import GameStates
@@ -44,8 +44,8 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 			tcod.console_flush()
 			render_update = False
 
-		game_state, fov_recompute, fov_map = action_check_player_actions(game_state, move, player, game_map, entities, player_turn_results, wait, pickup, message_log, take_stairs, fov_map, level_up, previous_game_state, constants, con, inventory_index, drop_inventory, show_inventory, fov_recompute)
-
+		game_state, fov_recompute, fov_map = action_check_player_actions(game_state, move, player, game_map, entities, player_turn_results, wait, message_log, take_stairs, level_up, previous_game_state, constants, con, fov_recompute, fov_map)
+		player_turn_results, previous_game_state, game_state = action_check_inventory(pickup, drop_inventory, game_state, entities, player, player_turn_results, message_log, show_inventory, fov_map, inventory_index, previous_game_state)
 		if show_character_screen:
 			previous_game_state = game_state
 			game_state = GameStates.CHARACTER_SCREEN

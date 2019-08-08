@@ -111,10 +111,10 @@ class GameMap:
 			self.tiles[x][y].block_sight = False
 
 	def place_entities(self, room, entities):
-		max_monsters_per_room = max(self.dungeon_level+1, 10)
+		max_monsters_per_room = max(3, min(self.dungeon_level+1, 10))
 		max_items_per_room = min(self.dungeon_level, 3)
 
-		number_of_monsters = randint(1, max_monsters_per_room)
+		number_of_monsters = randint(max_monsters_per_room-1, max_monsters_per_room)
 		number_of_items = randint(0, max_items_per_room)
 
 		for _ in range(number_of_monsters):
