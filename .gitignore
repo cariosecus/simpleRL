@@ -132,3 +132,7 @@ savegame.dat.dir
 # dlls
 libtcod.dll
 SDL2.dll
+distrib/
+compile.bat
+coverage_export.bat
+run.bat
