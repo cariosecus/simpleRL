@@ -50,19 +50,20 @@ def dumpyaml(file=None, data=None):
 			yaml.dump(file, file_descriptor)
 
 
-loadedmobs = loadyaml('data/npcs.yaml')
+loadedmobs = loadyaml('data/mobs.yaml')
 loadeditems = loadyaml('data/items.yaml')
 loadedequipment = loadyaml('data/equipment.yaml')
 loadedchances = loadyaml('data/spawn_chances.yaml')
 
 
-def load_entity(listed, subtype, x=0, y=0):
+def load_entity(listed, subtype, x=0, y=0, dungeon_level=1):
 	result = random.choice(listed)
+	modifier = max((dungeon_level/3), 1)
 	if subtype == 'mobs':
 		fighter_component = None
 		ai_component = None
 		if result['fighter_component']:
-			fighter_component = Fighter(result['hp'], result['defense'], result['power'], result['xp'])
+			fighter_component = Fighter(result['hp']*modifier, result['defense']*modifier, result['power']*modifier, result['xp'])
 		if result['ai_component']:
 			ai_component = BasicEnemy()
 		return Entity(x, y, result['char'], libtcod.Color(result['color_r'], result['color_g'], result['color_b']), result['name'], blocks=result['blocks'], render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
@@ -83,7 +84,7 @@ def load_entity(listed, subtype, x=0, y=0):
 			return Entity(x, y, result['char'], libtcod.Color(result['color_r'], result['color_g'], result['color_b']), result['name'], render_order=RenderOrder.ITEM, equipable=equipable_component)
 
 
-def load_rand_entity(rarity='common', etype='mobs', x=0, y=0):
+def load_rand_entity(rarity='common', etype='mobs', x=0, y=0, dungeon_level=1):
 	listed = []
 	if etype == 'mobs':
 		subtype = 'mobs'

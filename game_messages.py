@@ -34,10 +34,5 @@ class MessageLog:
 		for line in new_msg_lines:
 			self.messages.appendleft(Message(line, message.color))
 
-	def scroll(self, num):
-		new_bottom = self.bottom + num
-		if new_bottom >= 0 and new_bottom < len(self.messages) - self.height:
-			self.bottom = new_bottom
-
 	def __repr__(self):
 		return f"MessageLog({self.x}, {self.width}, {self.height})"

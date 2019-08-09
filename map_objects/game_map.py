@@ -10,8 +10,8 @@ from render_functions import RenderOrder
 from loader_functions.data_loaders import load_rand_entity
 
 
-def place_specific_entity(x, y, entities, otype):
-	item = load_rand_entity(random_choice_from_dict(otype), otype, x, y)
+def place_specific_entity(x, y, entities, otype, dungeon_level=1):
+	item = load_rand_entity(random_choice_from_dict(otype), otype, x, y, dungeon_level=1)
 	return(item)
 
 
@@ -118,14 +118,14 @@ class GameMap:
 			x = randint(room.x1 + 1, room.x2 - 1)
 			y = randint(room.y1 + 1, room.y2 - 1)
 			if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-				mob = place_specific_entity(x, y, entities, 'mobs')
+				mob = place_specific_entity(x, y, entities, 'mobs', self.dungeon_level)
 				entities.append(mob)
 
 		for _ in range(number_of_items):
 			x = randint(room.x1 + 1, room.x2 - 1)
 			y = randint(room.y1 + 1, room.y2 - 1)
 			if not any([entity for entity in entities if entity.x == x and entity.y == y]):
-				item = place_specific_entity(x, y, entities, 'objects')
+				item = place_specific_entity(x, y, entities, 'objects', self.dungeon_level)
 				entities.append(item)
 
 	def is_blocked(self, x, y):

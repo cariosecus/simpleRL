@@ -10,7 +10,7 @@
   'ai_component': 'ai_component'
   'hp': 30
   'defense': 0
-  'power': 3
+  'power': 4
   'xp': 35
 'troll':
   'char': 223
@@ -24,7 +24,7 @@
   'ai_component': 'ai_component'
   'hp': 40
   'defense': 2
-  'power': 4.5
+  'power': 7
   'xp': 100
 'armored orc':
   'char': 243
@@ -38,7 +38,7 @@
   'ai_component': 'ai_component'
   'hp': 30
   'defense': 3
-  'power': 4
+  'power': 4.5
   'xp': 60
 'goblin':
   'char': 233
@@ -52,7 +52,7 @@
   'ai_component': 'ai_component'
   'hp': 20
   'defense': 0
-  'power': 2
+  'power': 2.5
   'xp': 30
 'armored goblin':
   'char': 232
@@ -66,5 +66,5 @@
   'ai_component': 'ai_component'
   'hp': 20
   'defense': 2
-  'power': 3
+  'power': 3.5
   'xp': 45
