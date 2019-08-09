@@ -30,6 +30,7 @@ xcopy images\* dist\images\ /S /E /Y /Q /I
 xcopy data\* dist\data\ /S /E /Y /Q /I
 xcopy dist\engine\numpy\* dist\numpy\ /S /E /Y /Q /I
 xcopy dist\engine\tcod\* dist\tcod\ /S /E /Y /Q /I
+mkdir dist\tcod\x64
 copy dist\engine\SDL2.dll dist\tcod\x64\
 
 echo deleting temporary files...
