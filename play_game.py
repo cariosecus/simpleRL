@@ -71,6 +71,6 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 		if fullscreen:
 			libtcod.console_set_fullscreen(not libtcod.console_is_fullscreen())
 
-		game_state, message_log = action_turn_results(player_turn_results, message_log, player, con, game_map, in_target, entities, game_state, previous_game_state)
+		game_state, message_log, targeting_item = action_turn_results(player_turn_results, message_log, player, con, game_map, in_target, entities, game_state, previous_game_state, targeting_item)
 
 		game_state, message_log = action_enemy_turn(game_state, entities, player, fov_map, game_map, message_log)

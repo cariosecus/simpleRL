@@ -48,7 +48,7 @@ def get_turn_results(player_turn_result):
 	return message, dead_entity, item_added, item_consumed, item_dropped, equip, targeting, targeting_cancelled, xp
 
 
-def action_turn_results(player_turn_results, message_log, player, con, game_map, in_target, entities, game_state, previous_game_state):
+def action_turn_results(player_turn_results, message_log, player, con, game_map, in_target, entities, game_state, previous_game_state, targeting_item):
 	for player_turn_result in player_turn_results:
 		message, dead_entity, item_added, item_consumed, item_dropped, equip, targeting, targeting_cancelled, xp = get_turn_results(player_turn_result)
 
@@ -74,9 +74,9 @@ def action_turn_results(player_turn_results, message_log, player, con, game_map,
 
 			message_log.add_message(message)
 
-		game_state, message_log = action_check_items(item_added, item_consumed, item_dropped, in_target, game_state, previous_game_state, equip, targeting, targeting_cancelled, message_log, player, con, game_map, entities)
+		game_state, message_log, targeting_item = action_check_items(item_added, item_consumed, item_dropped, in_target, game_state, previous_game_state, equip, targeting, targeting_cancelled, message_log, player, con, game_map, entities, targeting_item)
 
-	return game_state, message_log
+	return game_state, message_log, targeting_item
 
 
 def action_check_player_actions(game_state, move, player, game_map, entities, player_turn_results, wait, message_log, take_stairs, level_up, previous_game_state, constants, con, fov_recompute, fov_map):
@@ -151,7 +151,7 @@ def action_check_inventory(pickup, drop_inventory, game_state, entities, player,
 	return player_turn_results, previous_game_state, game_state
 
 
-def action_check_items(item_added, item_consumed, item_dropped, in_target, game_state, previous_game_state, equip, targeting, targeting_cancelled, message_log, player, con, game_map, entities):
+def action_check_items(item_added, item_consumed, item_dropped, in_target, game_state, previous_game_state, equip, targeting, targeting_cancelled, message_log, player, con, game_map, entities, targeting_item):
 	if targeting:
 		previous_game_state = game_state
 		game_state = GameStates.TARGETING
@@ -201,7 +201,7 @@ def action_check_items(item_added, item_consumed, item_dropped, in_target, game_
 				message_log.add_message(Message('You dequiped the {0}'.format(dequiped.name)))
 
 		game_state = GameStates.ENEMY_TURN
-	return game_state, message_log
+	return game_state, message_log, targeting_item
 
 
 def action_enemy_turn(game_state, entities, player, fov_map, game_map, message_log):
