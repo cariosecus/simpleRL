@@ -1,9 +1,10 @@
 import tcod as libtcod
-from loader_functions.data_loaders import loadyaml
+import yaml
 
 
 def get_game_version():
-	loadedvars = loadyaml('data/variables.yaml')
+	with open('data/variables.yaml', "r") as file_descriptor:
+		loadedvars = yaml.safe_load(file_descriptor)
 	return loadedvars['VERSION']
 
 
