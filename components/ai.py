@@ -13,7 +13,7 @@ class BasicEnemy:
 				npc.move_astar(target, entities, game_map)
 
 			elif target.fighter.hp > 0:
-				attack_results = npc.fighter.attack(target)
+				attack_results = npc.fighter.attack(target, game_map)
 				results.extend(attack_results)
 		if game_map.turn_based is False:
 			npc.wait = npc.speed

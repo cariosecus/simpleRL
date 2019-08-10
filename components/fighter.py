@@ -53,7 +53,7 @@ class Fighter:
 		if self.hp > self.max_hp:
 			self.hp = self.max_hp
 
-	def attack(self, target):
+	def attack(self, target, game_map):
 		results = []
 		damage = self.power - target.fighter.defense
 
@@ -63,5 +63,6 @@ class Fighter:
 			results.extend(target.fighter.take_damage(damage))
 		else:
 			results.append({'message': Message('{0} attacks {1} but does no damage.'.format(self.owner.name.capitalize(), target.name), libtcod.white)})
-		self.owner.wait = self.attack_speed
+		if game_map.turn_based is False:
+			self.owner.wait = self.attack_speed
 		return results

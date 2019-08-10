@@ -106,12 +106,14 @@ def action_check_player_actions(game_state, move, player, game_map, entities, pl
 		if not game_map.is_blocked(destination_x, destination_y):
 			target = get_blocking_entities_at_location(entities, destination_x, destination_y)
 			if target:
-				attack_results = player.fighter.attack(target)
+				attack_results = player.fighter.attack(target, game_map)
 				player_turn_results.extend(attack_results)
 			else:
 				player.move(dx, dy)
 				if game_map.turn_based is False:
 					player.wait = player.speed
+				else:
+					player.wait = 0
 				fov_recompute = True
 		game_state = GameStates.ENEMY_TURN
 

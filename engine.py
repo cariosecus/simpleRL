@@ -15,7 +15,7 @@ def main():
 									libtcod.FONT_LAYOUT_ASCII_INROW | libtcod.FONT_TYPE_GREYSCALE)
 	libtcod.console_init_root(constants['screen_width'], constants['screen_height'],
 							constants['window_title'], False, libtcod.RENDERER_SDL2, 'F', True)
-	libtcod.sys_set_fps(10)
+	libtcod.sys_set_fps(15)
 	con = libtcod.console.Console(constants['screen_width'], constants['screen_height'])
 	panel = libtcod.console.Console(constants['screen_width'], constants['panel_height'])
 
@@ -47,15 +47,23 @@ def main():
 				in_handle.dispatch(event)
 			action = in_handle.get_action()
 			new_game = action.get('new_game')
+			new_game_rt = action.get('new_game_rt')
 			load_saved_game = action.get('load_game')
 			exit_game = action.get('exit')
 
-			if show_load_error_message and (new_game or load_saved_game or exit_game):
+			if show_load_error_message and (new_game or new_game_rt or load_saved_game or exit_game):
 				show_load_error_message = False
 
 			elif new_game:
 				player, entities, game_map, message_log, game_state = get_game_variables(constants)
 				game_state = GameStates.PLAYERS_TURN
+				game_map.turn_based = True
+
+				show_main_menu = False
+			elif new_game_rt:
+				player, entities, game_map, message_log, game_state = get_game_variables(constants)
+				game_state = GameStates.PLAYERS_TURN
+				game_map.turn_based = False
 
 				show_main_menu = False
 			elif load_saved_game:

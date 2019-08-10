@@ -2,14 +2,33 @@ import tcod as libtcod
 from game_states import GameStates
 
 
+def check_movement(game_state, game_map):
+	if not game_map:
+		return True
+	if game_map.turn_based is True:
+		if game_state == GameStates.PLAYERS_TURN:
+			return True
+		else:
+			return False
+	else:
+		if game_state in (GameStates.PLAYERS_TURN, GameStates.ENEMY_TURN):
+			return True
+		else:
+			return False
+
+
 class InputHandler(libtcod.event.EventDispatch):
 
 	def __init__(self):
 		self._actionq = []
-		self.state = GameStates.PLAYING
+		self.state = GameStates.PLAYERS_TURN
+		self.game_map = None
 
 	def set_game_state(self, state):
 		self.state = state
+
+	def set_game_map(self, game_map):
+		self.game_map = game_map
 
 	def ev_quit(self, event):
 		self._actionq.append({"exit": True})
@@ -24,10 +43,7 @@ class InputHandler(libtcod.event.EventDispatch):
 		if event.sym == libtcod.event.K_ESCAPE:
 			self._actionq.append({"exit": True})
 
-		if self.state == GameStates.PLAYING:
-			if event.sym in keymap_players_turn.keys():
-				self._actionq.append(keymap_players_turn[event.sym])
-		elif self.state == GameStates.PLAYER_DEAD:
+		if self.state == GameStates.PLAYER_DEAD:
 			if event.sym in keymap_player_dead.keys():
 				self._actionq.append(keymap_player_dead[event.sym])
 		elif self.state == GameStates.LEVEL_UP:
@@ -41,6 +57,10 @@ class InputHandler(libtcod.event.EventDispatch):
 			inv_index = event.sym - ord("a")
 			if 0 <= inv_index < 26:
 				self._actionq.append({"inventory_index": inv_index})
+
+		elif check_movement(self.state, self.game_map) is True:
+			if event.sym in keymap_players_turn.keys():
+				self._actionq.append(keymap_players_turn[event.sym])
 
 	def ev_mousemotion(self, event):
 		x, y = event.tile
@@ -99,6 +119,7 @@ keymap_level_up = {
 		}
 keymap_main_menu = {
 		libtcod.event.K_a: {'new_game': True},
-		libtcod.event.K_b: {'load_game': True},
-		libtcod.event.K_c: {"exit": True},
+		libtcod.event.K_b: {'new_game_rt': True},
+		libtcod.event.K_c: {'load_game': True},
+		libtcod.event.K_d: {"exit": True},
 		}
