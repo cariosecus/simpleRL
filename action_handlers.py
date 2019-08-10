@@ -81,6 +81,9 @@ def action_turn_results(player_turn_results, message_log, player, con, game_map,
 
 def action_check_player_actions(game_state, move, player, game_map, entities, player_turn_results, wait, message_log, take_stairs, level_up, previous_game_state, constants, con, fov_recompute, fov_map):
 	if move and game_state == GameStates.PLAYERS_TURN:
+		if player.wait > 0:
+			player.wait -= 1
+			return game_state, fov_recompute, fov_map, con, entities
 		dx, dy = move
 		destination_x = player.x + dx
 		destination_y = player.y + dy
@@ -208,7 +211,10 @@ def action_enemy_turn(game_state, entities, player, fov_map, game_map, message_l
 	if game_state == GameStates.ENEMY_TURN:
 		for entity in entities:
 			if entity.ai:
-				enemy_turn_results = entity.ai.take_turn(player, fov_map, game_map, entities)
+				if entity.wait > 0:
+					entity.wait -= 1
+				else:
+					enemy_turn_results = entity.ai.take_turn(player, fov_map, game_map, entities)
 
 				for enemy_turn_result in enemy_turn_results:
 					message = enemy_turn_result.get('message')

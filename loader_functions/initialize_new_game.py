@@ -41,6 +41,9 @@ def get_constants():
 		'fov_radius': loadedvars['FOV_RADIUS'],
 		'max_monsters_per_room': loadedvars['MAX_MONSTERS_PER_ROOM'],
 		'max_items_per_room': loadedvars['MAX_ITEMS_PER_ROOM'],
+		'player_speed': loadedvars['PLAYER_SPEED'],
+		'default_speed': loadedvars['DEFAULT_SPEED'],
+		'default_attack_speed': loadedvars['DEFAULT_ATTACK_SPEED'],
 		'colors': colors
 	}
 	return constants
@@ -51,7 +54,7 @@ def get_game_variables(constants):
 	inventory_component = Inventory(26)
 	level_component = Level()
 	equipment_component = Equipment()
-	player = Entity(0, 0, 208, libtcod.lightest_gray, 'Player', blocks=True, render_order=RenderOrder.ACTOR, fighter=fighter_component, inventory=inventory_component, level=level_component, equipment=equipment_component)
+	player = Entity(0, 0, 208, libtcod.lightest_gray, 'Player', blocks=True, render_order=RenderOrder.ACTOR, fighter=fighter_component, inventory=inventory_component, level=level_component, equipment=equipment_component, speed=constants['player_speed'])
 	entities = [player]
 
 	equipable_component = Equipable(EquipmentSlots.MAIN_HAND, power_bonus=0.75)

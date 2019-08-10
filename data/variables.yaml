@@ -19,3 +19,8 @@ ROOM_MIN_SIZE: 4
 # UI constants
 BAR_WIDTH: 20
 PANEL_HEIGHT: 4
+
+# speed/real time stuff - number of frames to wait after moving/attacking
+PLAYER_SPEED: 2
+DEFAULT_SPEED: 8
+DEFAULT_ATTACK_SPEED: 20

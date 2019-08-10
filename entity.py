@@ -5,7 +5,7 @@ from components.item import Item
 
 
 class Entity:
-	def __init__(self, x, y, char, color, name, blocks=False, render_order=RenderOrder.CORPSE, fighter=None, ai=None, item=None, inventory=None, stairs=None, level=None, equipment=None, equipable=None):
+	def __init__(self, x, y, char, color, name, blocks=False, render_order=RenderOrder.CORPSE, fighter=None, ai=None, item=None, inventory=None, stairs=None, level=None, equipment=None, equipable=None, speed=8):
 		self.x = x
 		self.y = y
 		self.char = char
@@ -21,7 +21,8 @@ class Entity:
 		self.level = level
 		self.equipment = equipment
 		self.equipable = equipable
-
+		self.speed = speed
+		self.wait = 0
 		if self.fighter:
 			self.fighter.owner = self
 		if self.ai:
@@ -47,6 +48,7 @@ class Entity:
 		# Move the entity by a given amount
 		self.x += dx
 		self.y += dy
+		self.wait = self.speed
 
 	def move_towards(self, target_x, target_y, game_map, entities):
 		dx = target_x - self.x
