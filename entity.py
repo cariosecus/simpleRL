@@ -5,7 +5,7 @@ from components.item import Item
 
 
 class Entity:
-	def __init__(self, x, y, char, color, name, blocks=False, render_order=RenderOrder.CORPSE, fighter=None, ai=None, item=None, inventory=None, stairs=None, level=None, equipment=None, equipable=None, speed=8):
+	def __init__(self, x, y, char, color, name, blocks=False, render_order=RenderOrder.CORPSE, fighter=None, ai=None, item=None, inventory=None, stairs=None, level=None, equipment=None, equipable=None, speed=10):
 		self.x = x
 		self.y = y
 		self.char = char

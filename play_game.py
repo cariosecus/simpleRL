@@ -19,7 +19,7 @@ def rendering_proc(player, entities, game_map, message_log, game_state, con, pan
 def play_game(player, entities, game_map, message_log, game_state, con, panel, constants):
 	fov_recompute = True
 	fov_map = initialize_fov(game_map)
-	game_state = GameStates.PLAYERS_TURN
+	game_state = GameStates.PLAYING
 	previous_game_state = game_state
 	targeting_item = None
 	mouse = libtcod.Mouse()

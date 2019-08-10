@@ -42,8 +42,6 @@ def get_constants():
 		'max_monsters_per_room': loadedvars['MAX_MONSTERS_PER_ROOM'],
 		'max_items_per_room': loadedvars['MAX_ITEMS_PER_ROOM'],
 		'player_speed': loadedvars['PLAYER_SPEED'],
-		'default_speed': loadedvars['DEFAULT_SPEED'],
-		'default_attack_speed': loadedvars['DEFAULT_ATTACK_SPEED'],
 		'colors': colors
 	}
 	return constants
@@ -66,6 +64,6 @@ def get_game_variables(constants):
 	game_map.make_map(constants['max_rooms'], constants['room_min_size'], constants['room_max_size'], constants['map_width'], constants['map_height'], player, entities)
 	message_log = MessageLog(constants['message_x'], constants['message_width'], constants['message_height'], 100)
 
-	game_state = GameStates.PLAYERS_TURN
+	game_state = GameStates.PLAYING
 
 	return player, entities, game_map, message_log, game_state

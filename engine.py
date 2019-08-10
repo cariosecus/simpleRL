@@ -15,7 +15,7 @@ def main():
 									libtcod.FONT_LAYOUT_ASCII_INROW | libtcod.FONT_TYPE_GREYSCALE)
 	libtcod.console_init_root(constants['screen_width'], constants['screen_height'],
 							constants['window_title'], False, libtcod.RENDERER_SDL2, 'F', True)
-
+	libtcod.sys_set_fps(10)
 	con = libtcod.console.Console(constants['screen_width'], constants['screen_height'])
 	panel = libtcod.console.Console(constants['screen_width'], constants['panel_height'])
 
@@ -55,7 +55,7 @@ def main():
 
 			elif new_game:
 				player, entities, game_map, message_log, game_state = get_game_variables(constants)
-				game_state = GameStates.PLAYERS_TURN
+				game_state = GameStates.PLAYING
 
 				show_main_menu = False
 			elif load_saved_game:

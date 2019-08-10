@@ -11,6 +11,7 @@
   'hp': 30
   'defense': 0
   'power': 4
+  'speed': 12
   'xp': 35
 'troll':
   'char': 223
@@ -25,6 +26,7 @@
   'hp': 40
   'defense': 2
   'power': 7
+  'speed': 18
   'xp': 100
 'armored orc':
   'char': 243
@@ -39,6 +41,7 @@
   'hp': 30
   'defense': 3
   'power': 4.5
+  'speed': 15
   'xp': 60
 'goblin':
   'char': 233
@@ -53,6 +56,7 @@
   'hp': 20
   'defense': 0
   'power': 2.5
+  'speed': 9
   'xp': 30
 'armored goblin':
   'char': 232
@@ -67,4 +71,5 @@
   'hp': 20
   'defense': 2
   'power': 3.5
+  'speed': 11
   'xp': 45

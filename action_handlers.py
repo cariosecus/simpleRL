@@ -80,7 +80,7 @@ def action_turn_results(player_turn_results, message_log, player, con, game_map,
 
 
 def action_check_player_actions(game_state, move, player, game_map, entities, player_turn_results, wait, message_log, take_stairs, level_up, previous_game_state, constants, con, fov_recompute, fov_map):
-	if move and game_state == GameStates.PLAYERS_TURN:
+	if move and game_state == GameStates.PLAYING:
 		if player.wait > 0:
 			player.wait -= 1
 			return game_state, fov_recompute, fov_map, con, entities
@@ -95,13 +95,13 @@ def action_check_player_actions(game_state, move, player, game_map, entities, pl
 			else:
 				player.move(dx, dy)
 				fov_recompute = True
-		game_state = GameStates.ENEMY_TURN
+		game_state = GameStates.PLAYING
 
 	elif wait:
 		message_log.add_message(Message('You wait.', libtcod.yellow))
-		game_state = GameStates.ENEMY_TURN
+		game_state = GameStates.PLAYING
 
-	if take_stairs and game_state == GameStates.PLAYERS_TURN:
+	if take_stairs and game_state == GameStates.PLAYING:
 		for entity in entities:
 			if entity.stairs and entity.x == player.x and entity.y == player.y:
 				entities = game_map.next_floor(player, message_log, constants)
@@ -127,7 +127,7 @@ def action_check_player_actions(game_state, move, player, game_map, entities, pl
 
 def action_check_inventory(pickup, drop_inventory, game_state, entities, player, player_turn_results, message_log, show_inventory, fov_map, inventory_index, previous_game_state):
 
-	if pickup and game_state == GameStates.PLAYERS_TURN:
+	if pickup and game_state == GameStates.PLAYING:
 		for entity in entities:
 			if entity.item and entity.x == player.x and entity.y == player.y:
 				pickup_results = player.inventory.add_item(entity)
@@ -168,10 +168,10 @@ def action_check_items(item_added, item_consumed, item_dropped, in_target, game_
 
 	if item_added:
 		entities.remove(item_added)
-		game_state = GameStates.ENEMY_TURN
+		game_state = GameStates.PLAYING
 
 	if item_consumed:
-		game_state = GameStates.ENEMY_TURN
+		game_state = GameStates.PLAYING
 
 	if in_target and game_state == GameStates.TARGETING:
 		x, y = in_target
@@ -188,7 +188,7 @@ def action_check_items(item_added, item_consumed, item_dropped, in_target, game_
 
 	if item_dropped:
 		entities.append(item_dropped)
-		game_state = GameStates.ENEMY_TURN
+		game_state = GameStates.PLAYING
 
 	if equip:
 		equip_results = player.equipment.toggle_equip(equip)
@@ -203,12 +203,13 @@ def action_check_items(item_added, item_consumed, item_dropped, in_target, game_
 			if dequiped:
 				message_log.add_message(Message('You dequiped the {0}'.format(dequiped.name)))
 
-		game_state = GameStates.ENEMY_TURN
+		game_state = GameStates.PLAYING
 	return game_state, message_log, targeting_item
 
 
 def action_enemy_turn(game_state, entities, player, fov_map, game_map, message_log):
-	if game_state == GameStates.ENEMY_TURN:
+	if game_state == GameStates.PLAYING:
+		enemy_turn_results = []
 		for entity in entities:
 			if entity.ai:
 				if entity.wait > 0:
@@ -238,5 +239,5 @@ def action_enemy_turn(game_state, entities, player, fov_map, game_map, message_l
 					break
 
 		else:
-			game_state = GameStates.PLAYERS_TURN
+			game_state = GameStates.PLAYING
 	return game_state, message_log

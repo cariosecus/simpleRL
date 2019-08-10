@@ -6,7 +6,7 @@ class InputHandler(libtcod.event.EventDispatch):
 
 	def __init__(self):
 		self._actionq = []
-		self.state = GameStates.PLAYERS_TURN
+		self.state = GameStates.PLAYING
 
 	def set_game_state(self, state):
 		self.state = state
@@ -24,7 +24,7 @@ class InputHandler(libtcod.event.EventDispatch):
 		if event.sym == libtcod.event.K_ESCAPE:
 			self._actionq.append({"exit": True})
 
-		if self.state == GameStates.PLAYERS_TURN:
+		if self.state == GameStates.PLAYING:
 			if event.sym in keymap_players_turn.keys():
 				self._actionq.append(keymap_players_turn[event.sym])
 		elif self.state == GameStates.PLAYER_DEAD:

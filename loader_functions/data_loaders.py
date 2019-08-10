@@ -66,7 +66,7 @@ def load_entity(listed, subtype, x=0, y=0, dungeon_level=1):
 			fighter_component = Fighter(result['hp']*modifier, result['defense']*modifier, result['power']*modifier, result['xp'])
 		if result['ai_component']:
 			ai_component = BasicEnemy()
-		return Entity(x, y, result['char'], libtcod.Color(result['color_r'], result['color_g'], result['color_b']), result['name'], blocks=result['blocks'], render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component)
+		return Entity(x, y, result['char'], libtcod.Color(result['color_r'], result['color_g'], result['color_b']), result['name'], blocks=result['blocks'], render_order=RenderOrder.ACTOR, fighter=fighter_component, ai=ai_component, speed=result['speed'])
 	elif subtype == 'items':
 		return Entity(x, y, result['char'], libtcod.Color(result['color_r'], result['color_g'], result['color_b']), result['name'], render_order=RenderOrder.ITEM, item=get_function_by_name(result['item_use_function'], result['targeting_message'], result['item_amount'], result['damage_radius'], result['damage'], result['maximum_range']))
 	elif subtype == 'equipment':
