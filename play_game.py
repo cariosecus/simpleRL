@@ -19,7 +19,7 @@ def rendering_proc(player, entities, game_map, message_log, game_state, con, pan
 def play_game(player, entities, game_map, message_log, game_state, con, panel, constants):
 	fov_recompute = True
 	fov_map = initialize_fov(game_map)
-	game_state = GameStates.PLAYING
+	game_state = GameStates.PLAYERS_TURN
 	previous_game_state = game_state
 	targeting_item = None
 	mouse = libtcod.Mouse()
@@ -32,7 +32,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 
 		rendering_proc(player, entities, game_map, message_log, game_state, con, panel, constants, fov_map, mouse, fov_recompute)
 
-		move, wait, doexit, pickup, fullscreen, show_inventory, drop_inventory, inventory_index, take_stairs, level_up, show_character_screen, in_target, mousemotion, left_click, right_click = check_actions(game_state)
+		move, wait, doexit, pickup, fullscreen, show_inventory, drop_inventory, inventory_index, take_stairs, level_up, show_character_screen, in_target, mousemotion, left_click, right_click = check_actions(game_state, game_map)
 
 		player_turn_results = []
 
@@ -45,7 +45,7 @@ def play_game(player, entities, game_map, message_log, game_state, con, panel, c
 			render_update = False
 
 		game_state, fov_recompute, fov_map, con, entities = action_check_player_actions(game_state, move, player, game_map, entities, player_turn_results, wait, message_log, take_stairs, level_up, previous_game_state, constants, con, fov_recompute, fov_map)
-		player_turn_results, previous_game_state, game_state = action_check_inventory(pickup, drop_inventory, game_state, entities, player, player_turn_results, message_log, show_inventory, fov_map, inventory_index, previous_game_state)
+		player_turn_results, previous_game_state, game_state = action_check_inventory(pickup, drop_inventory, game_state, entities, player, player_turn_results, message_log, show_inventory, fov_map, inventory_index, previous_game_state, game_map)
 		if show_character_screen:
 			previous_game_state = game_state
 			game_state = GameStates.CHARACTER_SCREEN

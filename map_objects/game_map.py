@@ -16,11 +16,12 @@ def place_specific_entity(x, y, entities, otype, dungeon_level=1):
 
 
 class GameMap:
-	def __init__(self, width, height, dungeon_level=1):
+	def __init__(self, width, height, dungeon_level=1, turn_based=True):
 		self.width = width
 		self.height = height
 		self.tiles = self.initialize_tiles()
 		self.dungeon_level = dungeon_level
+		self.turn_based = turn_based
 
 	def initialize_tiles(self):
 		tiles = [[Tile(True) for y in range(self.height)] for x in range(self.width)]
