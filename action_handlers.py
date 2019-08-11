@@ -223,7 +223,7 @@ def action_check_items(item_added, item_consumed, item_dropped, in_target, game_
 			if dequiped:
 				message_log.add_message(Message('You dequiped the {0}'.format(dequiped.name)))
 
-		game_state = GameStates.PLAYING
+		game_state = GameStates.ENEMY_TURN
 	return game_state, message_log, targeting_item
 
 

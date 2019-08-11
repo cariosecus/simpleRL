@@ -101,3 +101,55 @@
   'power_bonus': 0
   'defense_bonus': 4
   'max_hp_bonus': 0
+
+'Leather Helmet':
+  'char': '^'
+  'name': 'Leather Helmet'
+  'rarity': 'common'
+  'color_r': 64
+  'color_g': 42
+  'color_b': 12
+  'equipable_component': 'equipable_component'
+  'equipable_slots': 'EquipmentSlots.HEAD'
+  'power_bonus': 0
+  'defense_bonus': 0.75
+  'max_hp_bonus': 0
+
+'Leather Armor':
+  'char': 150
+  'name': 'Leather Armor'
+  'rarity': 'uncommon'
+  'color_r': 64
+  'color_g': 42
+  'color_b': 12
+  'equipable_component': 'equipable_component'
+  'equipable_slots': 'EquipmentSlots.TORSO'
+  'power_bonus': 0
+  'defense_bonus': 1.25
+  'max_hp_bonus': 0
+
+'Iron Helmet':
+  'char': '^'
+  'name': 'Leather Helmet'
+  'rarity': 'uncommon'
+  'color_r': 78
+  'color_g': 66
+  'color_b': 66
+  'equipable_component': 'equipable_component'
+  'equipable_slots': 'EquipmentSlots.HEAD'
+  'power_bonus': 0
+  'defense_bonus': 1
+  'max_hp_bonus': 0
+
+'Iron Armor':
+  'char': 150
+  'name': 'Leather Armor'
+  'rarity': 'uncommon'
+  'color_r': 78
+  'color_g': 66
+  'color_b': 66
+  'equipable_component': 'equipable_component'
+  'equipable_slots': 'EquipmentSlots.TORSO'
+  'power_bonus': 0
+  'defense_bonus': 1.5
+  'max_hp_bonus': 0
